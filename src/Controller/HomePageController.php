@@ -16,13 +16,4 @@ class HomePageController extends AbstractController
         return $this->render('home_page/index.html.twig', [
         ]);
     }
-
-    /**
-     * @Route("/dashbord/", name="dashbord")
-     */
-    public function test(): Response
-    {
-        return $this->render('dashbord/dashbord.html.twig', [
-        ]);
-    }
 }
