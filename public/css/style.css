@@ -1,0 +1,33 @@
+body{
+    font-family: 'Open Sans', sans-serif !important;
+    color: rgb(65, 65, 66);
+}
+
+a{
+    text-decoration: none !important;
+    color: rgb(65, 65, 66);
+}
+
+i
+{
+	font-size: 20px;
+}
+
+a:hover{
+    color: #007bff !important;
+}
+
+/*********** NAVBAR STYLE ***********/
+
+.navbar-toggler{
+    outline: none !important;
+}
+
+.nav-link{
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.dropdown-item{
+    background-color: transparent !important;
+}
