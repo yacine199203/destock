@@ -1,0 +1,24 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Ajouter une catégorie{% endblock %}
+{% block mbody %}
+
+<div class="mb-3 text-center">
+    <h1 style="font-weight: 500;">Ajouter une catégorie</h1>
+</div>
+<div class="p-5 border rounded bg-light">
+    {{ form_start(addCatForm) }}
+    {{ form_widget(addCatForm) }}
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" style="font-size: 16px;">Enregistrer</button>
+    </div>
+    {{ form_end(addCatForm) }}
+</div>
+{% endblock %}
+{% block javascripts %}
+
+<script type="text/javascript">
+    $("input[type=file]").change(function (e) { $(this).next('.custom-file-label').text(e.target.files[0].name); });
+</script>
+
+{% endblock %}

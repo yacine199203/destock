@@ -26,3 +26,24 @@ a:hover{
 .dropdown-item{
     background-color: transparent !important;
 }
+
+/*CATEGORY*/
+
+.category{
+    border: 1px solid rgb(65, 65, 66);
+    border-radius: 10px;
+}
+
+.btnmdsup {
+	box-shadow:none ! important;
+	outline: none ! important ;
+	font-size: 18px;
+}
+
+.btnmdsup:hover{
+	color: #007bff;
+}
+
+.delete:hover{
+	color: red !important;
+}

@@ -1,0 +1,43 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Catégorie{% endblock %}
+
+{% block mbody %}
+
+    <div class="container">
+
+        <div class="mb-3 text-center">
+            <h1 style="font-weight: 500;">Catégorie</h1>
+        </div>
+
+        <div class="row justify-content-end mx-2">
+            <a href="{{ path('addCategory')}}">
+                <button class="btn btn-primary my-2"type="button">
+                    Ajouter
+            </button>
+            </a>
+        </div>
+        <div class="row mx-2 p-2 category">
+            <div class="col-12">
+            {% for cat in categorys %}
+                <div class="row justify-content-between px-4 border-bottom mx-3 ">
+                    <span class="my-auto">{{cat.categoryName}}</span>
+                    <div>
+                        <a href="#">
+                            <button class="btn pr-0 btnmdsup"><i class="fas fa-edit"></i></button>
+                        </a>
+                        <a href="#"
+                           onclick="return confirm ('voulez vous vraiment supprimer {{cat.categoryName}} ? \ntous les produits inclus dans cette catégorie seront aussi supprimé')">
+                            <button class="btn pr-0 btnmdsup delete"><i class="far fa-trash-alt"></i></button>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+
+    </div>
+    
+
+{% endblock %}
+
