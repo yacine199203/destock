@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<div class="col-md-12 text-center mb-5 py-3" style="background-color: #efeeea;">
+    {% block arbo %}
+    <a href="{{ path('home_page') }}">Accueil</a> / Dashbord
+    {% endblock %}
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 pr-4 border">
+
+            <div class="p-2 border-bottom">
+                <h5>Yacine Bouadjenek</h5>
+            </div>
+            <div class="p-3">
+                <a href="#" class="nav-link"><i class="fas fa-user"></i> Utilisateurs</a>
+                <a href="#" class="nav-link"><i class="fas fa-list"></i> Catégories</a>
+                <a href="#" class="nav-link"><i class="far fa-images"></i> Sliders</a>
+                <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i></i> Produits</a>
+
+            </div>
+
+        </div>
+        <div class="col-md-9">
+            {% block mbody %}{% endblock %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascripts %}{% endblock %}

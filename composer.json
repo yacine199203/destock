@@ -7,6 +7,7 @@
         "php": ">=7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "cocur/slugify": "^4.0",
         "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.2",
@@ -84,6 +85,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "compile": [
+            "php bin/console doctrine:migrations:migrate"
         ]
     },
     "conflict": {
