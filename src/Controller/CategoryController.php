@@ -66,4 +66,70 @@ class CategoryController extends AbstractController
             'addCatForm'=> $addCatForm->createView(),
         ]);
     }
+
+    /**
+     * permet de modifier une catégorie
+     * @Route("/dashbord/modifier-categorie/{categoryName} ", name="editCategory")
+     * @return Response
+     */
+    public function editCategory($categoryName,CategoryRepository $categoryRepo,Request $request)
+    {   
+        $editCategory = $categoryRepo->findOneBySlug($categoryName);
+        $editCatForm = $this->createForm(CategoryType::class,$editCategory);
+        $editCatForm-> handleRequest($request);
+        if($editCatForm->isSubmitted() && $editCatForm->isValid() && empty($editCatForm->get('description')->getData()))
+        {
+            $file= $editCatForm->get('image')->getData();
+            if($file != null)
+            {
+                unlink('../public/images/'.$file);
+                $fileName=  uniqid().'.'.$file->guessExtension();
+                if($file->guessExtension()!='png'){
+                    $this->addFlash(
+                        'danger',
+                        "votre image doit être en format png "
+                    ); 
+                }else
+                {
+                    $file->move($this->getParameter('upload_directory_png'),$fileName);
+                    $editCategory->setImage($fileName);
+                }
+            }
+            $manager=$this->getDoctrine()->getManager();
+            $manager->persist($editCategory); 
+            $manager->flush();
+            $this->addFlash(
+                'success',
+                "La catégorie ".$editCategory->getCategoryName()." a bien été modifiée "
+            );
+            return $this-> redirectToRoute('category');
+            
+        }
+        return $this->render('category/editCategory.html.twig', [
+            'editCatForm'=> $editCatForm->createView(),
+        ]);
+    }
+
+    /**
+     * permet de supprimer une catégorie
+     * @Route("/dashbord/supprimer-categorie/{categoryName} ", name="removeCategory")
+     * @return Response
+     */
+    public function removeCategory($categoryName,CategoryRepository $categoryRepo)
+    {   
+        $categorys = $categoryRepo->findAll();//drop-down nos produits
+        $removeCategory = $categoryRepo->findOneBySlug($categoryName);
+        $file= $removeCategory->getImage();
+        if($removeCategory->getImage() != null){
+            unlink('../public/images/'.$file);
+        }
+        $manager=$this->getDoctrine()->getManager();
+        $manager->remove($removeCategory); 
+        $manager->flush();
+            $this->addFlash(
+                'success',
+                "La catégorie ".$removeCategory->getCategoryName()." a bien été supprimée "
+            );
+            return $this-> redirectToRoute('category');
+    }
 }

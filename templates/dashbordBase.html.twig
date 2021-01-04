@@ -1,7 +1,5 @@
 {% extends "base.html.twig" %}
-
 {% block body %}
-
 <div class="col-md-12 text-center mb-5 py-3" style="background-color: #efeeea;">
     {% block arbo %}
     {% endblock %}
@@ -9,7 +7,6 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3 pr-4 border bg-light">
-
             <div class="p-2 border-bottom">
                 <h5>Yacine Bouadjenek</h5>
             </div>
@@ -21,13 +18,21 @@
                 <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i></i> Produits</a>
 
             </div>
-
         </div>
         <div class="col-md-9">
+            {% for label,messages in app.flashes %}
+            {% for message in messages %}
+            <div class="alert alert-{{label}} alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button " class="close " data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+            {% endfor %}
             {% block mbody %}{% endblock %}
         </div>
     </div>
 </div>
-
 {% endblock %}
 {% block javascripts %}{% endblock %}

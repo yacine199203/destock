@@ -23,10 +23,10 @@
                 <div class="row justify-content-between px-4 border-bottom mx-3 ">
                     <span class="my-auto">{{cat.categoryName}}</span>
                     <div>
-                        <a href="#">
+                        <a href="{{ path('editCategory',{'categoryName': cat.slug}) }}">
                             <button class="btn pr-0 btnmdsup"><i class="fas fa-edit"></i></button>
                         </a>
-                        <a href="#"
+                        <a href="{{ path('removeCategory',{'categoryName': cat.slug}) }}"
                            onclick="return confirm ('voulez vous vraiment supprimer {{cat.categoryName}} ? \ntous les produits inclus dans cette catégorie seront aussi supprimé')">
                             <button class="btn pr-0 btnmdsup delete"><i class="far fa-trash-alt"></i></button>
                         </a>

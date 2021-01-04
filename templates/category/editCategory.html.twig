@@ -1,0 +1,24 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Modifier une catégorie{% endblock %}
+{% block mbody %}
+
+<div class="mb-3 text-center">
+    <h1 style="font-weight: 500;">Modifier une catégorie</h1>
+</div>
+<div class="p-5 border rounded bg-light">
+    {{ form_start(editCatForm) }}
+    {{ form_widget(editCatForm) }}
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" style="font-size: 16px;">Modifier</button>
+    </div>
+    {{ form_end(editCatForm) }}
+</div>
+{% endblock %}
+{% block javascripts %}
+
+<script type="text/javascript">
+    $("input[type=file]").change(function (e) { $(this).next('.custom-file-label').text(e.target.files[0].name); });
+</script>
+
+{% endblock %}
