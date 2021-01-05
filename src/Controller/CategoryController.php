@@ -15,6 +15,7 @@ class CategoryController extends AbstractController
 {
 
     /**
+     * permet de voir la liste des catégories
      * @Route("/dashbord/categories", name="category")
      */
     public function showCategory(CategoryRepository $categoryRepo): Response

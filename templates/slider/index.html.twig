@@ -1,0 +1,40 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Catégorie{% endblock %}
+
+{% block arbo %}
+<a href="{{path('home_page')}}">Accueil</a> / <span>Slider</span>
+{% endblock %}
+
+{% block mbody %}
+<div class="container">
+    <div class="mb-3 text-center">
+        <h1 style="font-weight: 500;">Slider</h1>
+    </div>
+
+    <div class="row justify-content-end mx-2">
+        <a href="{{path('addSlid')}}">
+            <button class="btn btn-primary my-2" type="button">
+                Ajouter
+            </button>
+        </a>
+    </div>
+    <div class="row mx-2 p-2 category">
+        <div class="col-12">
+            {% for slider in sliders %}
+                <div class="row justify-content-between px-4 border-bottom mx-3 ">
+                    <span class="my-2" style="width: 200px;">
+                        <img src="/images/{{slider.image}}" alt="" style="width: 100%;"> 
+                    </span>
+                    <div>
+                        <a href="{{ path('removeSlid',{'image': slider.id}) }}"
+                           onclick="return confirm ('voulez vous vraiment supprimer ce slid ?')">
+                            <button class="btn pr-0 btnmdsup delete"><i class="far fa-trash-alt"></i></button>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
