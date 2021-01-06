@@ -5,10 +5,16 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\JobRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=JobRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(
+ * fields={"jobName"},
+ * message="Ce métier existe déja"
+ * )
  */
 class Job
 {
@@ -21,6 +27,7 @@ class Job
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est vide")
      */
     private $jobName;
 
@@ -42,7 +49,7 @@ class Job
     public function intialSlug(){
         if(empty($this->slug) || !empty($this->slug)){
             $slugify= new Slugify();
-            $this->slug = $slugify->slugify($this->job);
+            $this->slug = $slugify->slugify($this->jobName);
         }
     }
 
@@ -58,7 +65,7 @@ class Job
 
     public function setJobName(string $jobName): self
     {
-        $this->jobName = $jobName;
+        $this->jobName = ucfirst(mb_strtolower($jobName, 'UTF-8'));
 
         return $this;
     }

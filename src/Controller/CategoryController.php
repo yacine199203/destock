@@ -56,7 +56,7 @@ class CategoryController extends AbstractController
                 $manager->flush();
                 $this->addFlash(
                     'success',
-                    "La catégorie ".$addCategory->getCategoryName()." a bien été ajoutée "
+                    "La catégorie <strong>".$addCategory->getCategoryName()."</strong> a bien été ajoutée "
                 );
                 return $this-> redirectToRoute('category');  
             }
@@ -98,7 +98,7 @@ class CategoryController extends AbstractController
                 $manager->flush();
                 $this->addFlash(
                     'success',
-                    "La catégorie ".$editCategory->getCategoryName()." a bien été modifiée"
+                    "La catégorie <strong>".$editCategory->getCategoryName()."</strong> a bien été modifiée"
                 );
                 return $this-> redirectToRoute('category');  
             }
@@ -115,7 +115,6 @@ class CategoryController extends AbstractController
      */
     public function removeCategory($categoryName,CategoryRepository $categoryRepo)
     {   
-        $categorys = $categoryRepo->findAll();//drop-down nos produits
         $removeCategory = $categoryRepo->findOneBySlug($categoryName);
         $file= $removeCategory->getImage();
         if($removeCategory->getImage() != null){

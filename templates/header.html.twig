@@ -45,7 +45,10 @@
                             Nos réalisations
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
+                            {% for job in header.jobs %}
+                            <a class="dropdown-item"
+                                href=" # ">Agencements pour {{job.jobName|upper}}</a>
+                            {% endfor %}
                         </div>
                     </li>
                     <li class="nav-item">

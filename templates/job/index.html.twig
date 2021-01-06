@@ -1,19 +1,19 @@
 {% extends 'dashbordBase.html.twig' %}
 
-{% block title %}Catégories{% endblock %}
+{% block title %}Métiers{% endblock %}
 
 {% block arbo %}
-<a href="{{path('home_page')}}">Accueil</a> / <span>Catégories</span>
+<a href="{{path('home_page')}}">Accueil</a> / <span>Métiers</span>
 {% endblock %}
 
 {% block mbody %}
 <div class="container">
     <div class="mb-3 text-center">
-        <h1 style="font-weight: 500;">Catégories</h1>
+        <h1 style="font-weight: 500;">Métiers</h1>
     </div>
 
     <div class="row justify-content-end mx-2">
-        <a href="{{ path('addCategory')}}">
+        <a href="{{path('addJob')}}">
             <button class="btn btn-primary my-2" type="button">
                 Ajouter
             </button>
@@ -21,15 +21,15 @@
     </div>
     <div class="row mx-2 p-2 category">
         <div class="col-12">
-            {% for cat in categorys %}
+            {% for job in jobs %}
             <div class="row justify-content-between px-4 border-bottom mx-3 ">
-                <span class="my-auto">{{cat.categoryName}}</span>
+                <span class="my-auto">{{job.jobName}}</span>
                 <div>
-                    <a href="{{ path('editCategory',{'categoryName': cat.slug}) }}">
+                    <a href="{{path('editJob',{'id': job.id})}}">
                         <button class="btn pr-0 btnmdsup"><i class="fas fa-edit"></i></button>
                     </a>
-                    <a href="{{ path('removeCategory',{'categoryName': cat.slug}) }}"
-                        onclick="return confirm ('voulez vous vraiment supprimer {{cat.categoryName}} ? \ntous les produits inclus dans cette catégorie seront aussi supprimé')">
+                    <a href="{{path('removeJob',{'id': job.id})}}"
+                        onclick="return confirm ('voulez vous vraiment supprimer {{job.jobName}} ? \ntous les produits inclus dans cette catégorie seront aussi supprimé')">
                         <button class="btn pr-0 btnmdsup delete"><i class="far fa-trash-alt"></i></button>
                     </a>
                 </div>

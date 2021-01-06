@@ -1,0 +1,28 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Modifier un métier{% endblock %}
+
+{% block arbo %}
+<a href="{{path('home_page')}}">Accueil</a> / <a href="{{path('job')}}">Métiers</a> / <span>Modifier un métier</span>
+{% endblock %}
+
+{% block mbody %}
+<div class="mb-3 text-center">
+    <h1 style="font-weight: 500;">Modifier un métier</h1>
+</div>
+<div class="p-5 border rounded bg-light">
+    {{ form_start(editJobForm) }}
+    {{ form_widget(editJobForm) }}
+    <div class="modal-footer px-0">
+        <button type="submit" class="btn btn-primary" style="font-size: 16px;">Modifier</button>
+    </div>
+    {{ form_end(editJobForm) }}
+</div>
+{% endblock %}
+{% block javascripts %}
+
+<script type="text/javascript">
+    $("input[type=file]").change(function (e) { $(this).next('.custom-file-label').text(e.target.files[0].name); });
+</script>
+
+{% endblock %}

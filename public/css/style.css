@@ -49,3 +49,8 @@ a:hover{
 .delete:hover{
 	color: red !important;
 }
+
+/*VERTICAL MENU*/
+.tete{
+    background-color: #eee;
+}

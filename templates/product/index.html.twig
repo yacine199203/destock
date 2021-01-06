@@ -1,0 +1,88 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block arbo %}
+<a href="{{path('home_page')}}">Accueil</a> / <span>Produits</span>
+{% endblock %}
+
+{% block mbody %}
+<div class="container">
+    <div class="mb-3 text-center">
+        <h1 style="font-weight: 500;">Produits</h1>
+    </div>
+
+    {% if header.categorys is empty %}
+    <div class="row justify-content-center my-5">
+        <h2 class="mx-auto">Vous devez ajouter au moins une catégorie</h2>
+    </div>
+
+    {% else %}
+    <div class="row justify-content-end mx-2">
+        <a href="{{path('addProduct')}}">
+            <button class="btn btn-primary my-2" type="button">
+                Ajouter
+            </button>
+        </a>
+    </div>
+    {% endif %}
+    <div class="row p-2">
+        <div class="col-12">
+            <div class="rounded shadow-sm border col-12 ">
+                {% for cat in header.categorys %}
+                <div class="toto">
+                    <div class="tete px-1 row justify-content-between border">
+                        <a href="#" class="p-2 ">
+                            <strong>{{cat.categoryName}}</strong>
+                        </a>
+                        <a href="#" class="p-2 slid"><i class="fas fa-plus text-primary"></i></a>
+                    </div>
+                    <div class="corp">
+                        <div class="p-2  d-flex flex-column">
+                            {% for product in cat.products %}
+                            <div>
+                                <div class="row justify-content-between px-4 border-bottom mx-3 ">
+                                    <span class="my-auto">{{ product.productName }}</span>
+                                    <div>
+                                        <a href="#">
+                                            <button class="btn pr-0 btnmdsup"><i class="fas fa-edit"></i></button>
+                                        </a>
+                                        <a href="#"
+                                            onclick="return confirm ('voulez vous vraiment supprimer {{ product.productName }} ?')">
+                                            <button class="btn pr-0 btnmdsup delete"><i
+                                                    class="far fa-trash-alt"></i></button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script>
+    $('.corp').hide();
+
+    $('a.slid').each(function(l){
+        $(this).on('click', function (e) {
+            e.preventDefault();
+            if($(this).children('i').hasClass('fa-plus')){
+                $(this).parent().siblings('.corp').show('200');
+                $(this).children('i').removeClass('fa-plus');
+                $(this).children('i').addClass('fa-minus');
+            }else{
+                $(this).parent().siblings('.corp').hide('200');
+                $(this).children('i').removeClass('fa-minus');
+                $(this).children('i').addClass('fa-plus');   
+            }
+        });
+    })
+    
+</script>
+{% endblock %}
