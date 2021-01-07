@@ -3,14 +3,16 @@
 {% block title %}Modifier une catégorie{% endblock %}
 
 {% block arbo %}
-<a href="{{path('home_page')}}">Accueil</a> / <a href="{{path('category')}}">Catégories</a> / <span>Modifier une catégorie</span>
+<a href="{{path('home_page')}}">Accueil</a> / <a href="{{path('category')}}">Catégories</a> / <span>Modifier une
+    catégorie</span>
 {% endblock %}
 
 {% block mbody %}
-<div class="mb-3 text-center">
-    <h1 style="font-weight: 500;">Modifier une catégorie</h1>
-</div>
 <div class="p-5 border rounded bg-light">
+    <div class="mb-3 text-center">
+        <h1 style="font-weight: 500;">Modifier une catégorie</h1>
+    </div>
+
     {{ form_start(editCatForm) }}
     {{ form_widget(editCatForm) }}
     <div class="modal-footer px-0">

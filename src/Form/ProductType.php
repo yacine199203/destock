@@ -60,6 +60,15 @@ class ProductType extends AbstractType
                 'required'=> false,
                 'multiple'=> true,
             ])
+            ->add('job',EntityType::class,[
+                'label'=>'Métiers :',
+                'class'=>'App\Entity\Job',
+                'choice_label'=>'jobName',
+                'choice_value'=>'id',
+                'mapped'=> false,
+                'expanded'=>true,
+                'multiple'=>true,
+            ])
             ->add('characteristics',CollectionType::class,
             [
                 'label'=>'Caractéristiques :',
