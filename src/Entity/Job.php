@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\JobRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -40,6 +42,16 @@ class Job
      * @ORM\Column(type="string", length=255)
      */
     private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity=JobProduct::class, mappedBy="job", orphanRemoval=true)
+     */
+    private $jobProducts;
+
+    public function __construct()
+    {
+        $this->jobProducts = new ArrayCollection();
+    }
 
     /** 
     *@ORM\PrePersist
@@ -90,6 +102,36 @@ class Job
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|JobProduct[]
+     */
+    public function getJobProducts(): Collection
+    {
+        return $this->jobProducts;
+    }
+
+    public function addJobProduct(JobProduct $jobProduct): self
+    {
+        if (!$this->jobProducts->contains($jobProduct)) {
+            $this->jobProducts[] = $jobProduct;
+            $jobProduct->setJob($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJobProduct(JobProduct $jobProduct): self
+    {
+        if ($this->jobProducts->removeElement($jobProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($jobProduct->getJob() === $this) {
+                $jobProduct->setJob(null);
+            }
+        }
 
         return $this;
     }

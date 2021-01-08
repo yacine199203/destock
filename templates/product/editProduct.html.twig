@@ -1,0 +1,216 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Modifier un produit{% endblock %}
+
+{% block arbo %}
+<a href="{{path('home_page')}}">Accueil</a> / <a href="{{path('product')}}">Produits</a> / <span>Modifier un
+    produit</span>
+{% endblock %}
+
+{% form_theme editProdForm _self %}
+{% block mbody %}
+<div class="p-5 border rounded bg-light">
+    <div class="mb-3 text-center">
+        <h1 style="font-weight: 500;">Modifier un produit</h1>
+    </div>
+
+    {{ form_start(editProdForm) }}
+    {{ form_row(editProdForm.productName) }}
+    {{ form_row(editProdForm.category) }}
+    {{ form_row(editProdForm.png) }}
+    {{ form_row(editProdForm.pdf) }}
+    {{ form_row(editProdForm.image) }}
+    {% for image in editProduct.productImages %}
+    <div class="row justify-content-between px-4 border-bottom mx-3 py-2">
+        <img src="/images/{{image.image}}" width="150">
+        <a href="{{path('removePi',{'id':image.id})}}" class="delete delete1">
+            <i class="far fa-trash-alt"></i>
+        </a>
+    </div>
+    {% endfor %}
+    {{ form_row(editProdForm.jobProducts) }}
+    {% for jb in editProduct.jobProducts %}
+    <div class="row justify-content-between px-4 border-bottom mx-3 py-2">
+        <span>{{jb.job.jobName}}</span>
+        <a href="{{path('removePj',{'id':jb.id})}}" class="delete delete2">
+            <i class="far fa-trash-alt"></i>
+        </a>
+    </div>
+    {% endfor %}
+    {{ form_row(editProdForm.prices) }}
+    {{ form_row(editProdForm.characteristics) }}
+
+    <div class="modal-footer px-0">
+        <button type="submit" class="btn btn-primary" style="font-size: 16px;">Modifier</button>
+    </div>
+    {{ form_end(editProdForm) }}
+
+</div>
+{% endblock %}
+
+{% block _edit_product_characteristics_widget %}
+    {{form_widget(form)}}
+    <input type="hidden" id="widgets-counter" value="0">
+    <div class="form-group">
+        <button id="add-cara" type="button" class="btn pr-0 btnmdsup" style="font-size: 20px;">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+{% endblock %}
+
+{% block _edit_product_characteristics_entry_row %}
+{{ form_widget(form)}}
+{% endblock %}
+
+{% block _edit_product_characteristics_entry_widget %}
+
+<div class="form-group" id="block_{{ id }}">
+    <div class="row">
+        <div class="col-md-11 pr-0">
+            {{ form_widget(form.characteristics)}}
+        </div>
+        <div class="col-md-1 p-0">
+            <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn pr-0 btnmdsup delete" style="font-size: 20px;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% block _edit_product_prices_widget %}
+<input type="hidden" id="widgets-counterp" value="0">
+{{ form_widget(form) }}
+<div class="form-group">
+    <button id="add-dim" type="button" class="btn pr-0 btnmdsup" style="font-size: 20px;">
+        <i class="fas fa-plus"></i>
+    </button>
+</div>
+{% endblock %}
+
+{% block _edit_product_prices_entry_row %}
+{{ form_widget(form) }}
+{% endblock %}
+{% block _edit_product_prices_entry_widget %}
+<div class="form-group" id="block_{{ id }}">
+    <div class="row">
+        <div class="col">{{form_widget(form.dimension)}}</div>
+        <div class="col">{{form_widget(form.price1)}}</div>
+        <div class="col">{{form_widget(form.price2)}}</div>
+        <div class="col">{{form_widget(form.price3)}}</div>
+        <div class="col-md-1">
+            <button type="button" data-action="delete" data-target="#block_{{ id }}" class=" btn px-0 btnmdsup delete"
+                style="font-size: 20px;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block javascripts %}
+
+<script type="text/javascript">
+    $("input[type=file]").change(function (e) { $(this).next('.custom-file-label').text(e.target.files[0].name); });
+</script>
+
+<script>
+    $('#add-cara').click(function(){
+        const index1 = +$('#widgets-counter').val();
+        const tmpl1 = $('#edit_product_characteristics').data('prototype').replace(/__name__/g, index1);
+        $('#edit_product_characteristics').append(tmpl1);
+        $('#widgets-counter').val(index1 + 1);
+        handleDeleteButtons1();
+    });
+
+    function handleDeleteButtons1(){
+        $('button[data-action="delete"]').click(function () {
+            const target1 = this.dataset.target;
+            $(target1).remove();
+        });
+    };
+
+    function updatecounter1() {
+        const count1 = +$('#edit_product_characteristics div.form-group').length;
+        $('#widgets-counter').val(count1);
+    }
+
+    updatecounter1();
+    handleDeleteButtons1();
+</script>
+
+<script>
+    $('#add-dim').click(function () {
+        // récupèrer le numéro du future champ à ajouter
+        const index = +$('#widgets-counterp').val();
+        // récupèrer le prototype html généré par symfony voir inspecter code
+        const tmpl = $('#edit_product_prices').data('prototype').replace(/__name__/g, index);
+        //injecter le code 
+        $('#edit_product_prices').append(tmpl);
+        $('#widgets-counterp').val(index + 1);
+        handleDeleteButtonsp();
+    });
+
+    function handleDeleteButtonsp() {
+        $('button[data-action="delete"]').click(function () {
+            const target = this.dataset.target;
+            $(target).remove();
+        });
+    }
+
+    function updatecounterp() {
+        const count = +$('#edit_product_prices div.form-group').length;
+        $('#widgets-counterp').val(count);
+    }
+    updatecounterp();
+    handleDeleteButtonsp();
+</script>
+
+<script>
+    $('.delete1').each(function(){
+        $(this).on('click',function(e){
+            if(confirm("Voulez-vous supprimer cette image ?")){
+            e.preventDefault();
+            url= $(this).attr("href");
+            $.getJSON(url, function (response) {
+                
+            });
+            $(this).parent().remove();
+        }
+        });
+    });
+</script>
+
+<script>
+    $('.delete2').each(function(){
+        $(this).on('click',function(e){
+            if(confirm("Voulez-vous supprimer ce métier ?")){
+            e.preventDefault();
+            url= $(this).attr("href");
+            $.getJSON(url, function (response) {
+                
+            });
+            $(this).parent().remove();
+        }
+        });
+    });
+</script>
+{% endblock %}

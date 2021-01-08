@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Product;
+use App\Form\PriceType;
 use App\Form\CharacteristicsType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -60,14 +61,21 @@ class ProductType extends AbstractType
                 'required'=> false,
                 'multiple'=> true,
             ])
-            ->add('job',EntityType::class,[
+            ->add('jobProducts',EntityType::class,[
                 'label'=>'Métiers :',
                 'class'=>'App\Entity\Job',
                 'choice_label'=>'jobName',
                 'choice_value'=>'id',
-                'mapped'=> false,
+                'mapped'=>false,
                 'expanded'=>true,
                 'multiple'=>true,
+            ])
+            ->add('prices',CollectionType::class,
+            [
+                'label'=>'Dimensions et prix TTC:',
+                'entry_type' => PriceType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
             ])
             ->add('characteristics',CollectionType::class,
             [

@@ -55,10 +55,21 @@ class Product
     private $productImages;
 
     /**
-     * @ORM\OneToMany(targetEntity=Characteristics::class, mappedBy="product")
-     * @Assert\Valid
+     * @ORM\OneToMany(targetEntity=Characteristics::class, mappedBy="product",orphanRemoval=true, cascade={"persist"})
+     * @Assert\Valid()
      */
     private $characteristics;
+
+    /**
+     * @ORM\OneToMany(targetEntity=JobProduct::class, mappedBy="product", orphanRemoval=true,cascade={"persist"})
+     * @Assert\Valid
+     */
+    private $jobProducts;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Price::class, mappedBy="product", orphanRemoval=true)
+     */
+    private $prices;
 
     
 
@@ -66,6 +77,8 @@ class Product
     {
         $this->productImages = new ArrayCollection();
         $this->characteristics = new ArrayCollection();
+        $this->jobProducts = new ArrayCollection();
+        $this->prices = new ArrayCollection();
     }
 
     /** 
@@ -199,6 +212,66 @@ class Product
             // set the owning side to null (unless already changed)
             if ($characteristic->getProduct() === $this) {
                 $characteristic->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|JobProduct[]
+     */
+    public function getJobProducts(): Collection
+    {
+        return $this->jobProducts;
+    }
+
+    public function addJobProduct(JobProduct $jobProduct): self
+    {
+        if (!$this->jobProducts->contains($jobProduct)) {
+            $this->jobProducts[] = $jobProduct;
+            $jobProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJobProduct(JobProduct $jobProduct): self
+    {
+        if ($this->jobProducts->removeElement($jobProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($jobProduct->getProduct() === $this) {
+                $jobProduct->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Price[]
+     */
+    public function getPrices(): Collection
+    {
+        return $this->prices;
+    }
+
+    public function addPrice(Price $price): self
+    {
+        if (!$this->prices->contains($price)) {
+            $this->prices[] = $price;
+            $price->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrice(Price $price): self
+    {
+        if ($this->prices->removeElement($price)) {
+            // set the owning side to null (unless already changed)
+            if ($price->getProduct() === $this) {
+                $price->setProduct(null);
             }
         }
 

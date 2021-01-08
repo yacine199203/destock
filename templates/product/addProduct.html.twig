@@ -13,82 +13,136 @@
     <div class="mb-3 text-center">
         <h1 style="font-weight: 500;">Ajouter un produit</h1>
     </div>
-    
-        {{ form_start(addProdForm) }}
-        {{ form_widget(addProdForm) }}
-        <div class="modal-footer px-0">
-            <button type="submit" class="btn btn-primary" style="font-size: 16px;">Enregistrer</button>
+
+    {{ form_start(addProdForm) }}
+    {{ form_widget(addProdForm) }}
+    <div class="modal-footer px-0">
+        <button type="submit" class="btn btn-primary" style="font-size: 16px;">Enregistrer</button>
+    </div>
+    {{ form_end(addProdForm) }}
+</div>
+{% endblock %}
+
+{% block _product_characteristics_entry_row %}
+{{ form_widget(form) }}
+{% endblock %}
+
+{% block _product_characteristics_entry_widget %}
+<div class="form-group" id="block_{{ id }}">
+    <div class="row">
+        <div class="col-md-11 pr-0">
+            {{ form_widget (form.characteristics)}}
         </div>
-        {{ form_end(addProdForm) }}
-    </div>
-    {% endblock %}
-
-    {% block _product_characteristics_entry_row %}
-    {{ form_widget(form) }}
-    {% endblock %}
-
-    {% block _product_characteristics_entry_widget %}
-    <div class="form-group" id="block_{{ id }}">
-        <div class="row">
-            <div class="col-md-11 pr-0">
-                {{ form_widget (form.characteristics)}}
-            </div>
-            <div class="col-md-1 p-0">
-                <button type="button" data-action="delete" data-target="#block_{{ id }}"
-                    class="btn pr-0 btnmdsup delete" style="font-size: 20px;">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+        <div class="col-md-1 p-0">
+            <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn pr-0 btnmdsup delete"
+                style="font-size: 20px;">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}
 
-    {% block _product_characteristics_widget %}
-    {{ form_widget(form) }}
-    <input type="hidden" id="widgets-counter" value="0">
-    <div class="form-group">
-        <button id="add-cara" type="button" class="btn pr-0 btnmdsup" style="font-size: 20px;">
-            <i class="fas fa-plus"></i>
-        </button>
+{% block _product_characteristics_widget %}
+{{ form_widget(form) }}
+<input type="hidden" id="widgets-counter" value="0">
+<div class="form-group">
+    <button id="add-cara" type="button" class="btn pr-0 btnmdsup" style="font-size: 20px;">
+        <i class="fas fa-plus"></i>
+    </button>
+</div>
+{% endblock %}
+
+{% block _product_prices_widget %}
+<input type="hidden" id="widgets-counterp" value="0">
+{{ form_widget(form) }}
+<div class="form-group">
+    <button id="add-dim" type="button" class="btn pr-0 btnmdsup" style="font-size: 20px;">
+        <i class="fas fa-plus"></i>
+    </button>
+</div>
+{% endblock %}
+
+{% block _product_prices_entry_row %}
+{{ form_widget(form) }}
+{% endblock %}
+{% block _product_prices_entry_widget %}
+<div class="form-group" id="block_{{ id }}">
+    <div class="row">
+        <div class="col">{{form_widget(form.dimension)}}</div>
+        <div class="col">{{form_widget(form.price1)}}</div>
+        <div class="col">{{form_widget(form.price2)}}</div>
+        <div class="col">{{form_widget(form.price3)}}</div>
+        <div class="col">
+            <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn pr-0 btnmdsup delete"
+                style="font-size: 20px;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}
 
 
 
-    {% block javascripts %}
+{% block javascripts %}
 
-    <script type="text/javascript">
-        $("input[type=file]").change(function (e) { $(this).next('.custom-file-label').text(e.target.files[0].name); });
-    </script>
+<script type="text/javascript">
+    $("input[type=file]").change(function (e) { $(this).next('.custom-file-label').text(e.target.files[0].name); });
+</script>
 
-    <script>
-
-        $('#add-cara').click(function () {
-            // récupèrer le numéro du future champ à ajouter
-            const index = +$('#widgets-counter').val();
-            // récupèrer le prototype html généré par symfony voir inspecter code
-            const tmpl = $('#product_characteristics').data('prototype').replace(/__name__/g, index);
-            //injecter le code 
-            $('#product_characteristics').append(tmpl);
-            $('#widgets-counter').val(index + 1);
-            handleDeleteButtons();
-        });
-
-        function handleDeleteButtons() {
-            $('button[data-action="delete"]').click(function () {
-                const target = this.dataset.target;
-                $(target).remove();
-            });
-        }
-
-        function updatecounter() {
-            const count = +$('#product_characteristics div.form-group').length;
-            $('#widgets-counter').val(count);
-        }
-
-        updatecounter();
+<script>
+    $('#add-cara').click(function () {
+        // récupèrer le numéro du future champ à ajouter
+        const index = +$('#widgets-counter').val();
+        // récupèrer le prototype html généré par symfony voir inspecter code
+        const tmpl = $('#product_characteristics').data('prototype').replace(/__name__/g, index);
+        //injecter le code 
+        $('#product_characteristics').append(tmpl);
+        $('#widgets-counter').val(index + 1);
         handleDeleteButtons();
-    </script>
+    });
+
+    function handleDeleteButtons() {
+        $('button[data-action="delete"]').click(function () {
+            const target = this.dataset.target;
+            $(target).remove();
+        });
+    }
+
+    function updatecounter() {
+        const count = +$('#product_characteristics div.form-group').length;
+        $('#widgets-counter').val(count);
+    }
+    updatecounter();
+    handleDeleteButtons();
+</script>
+<script>
+    $('#add-dim').click(function () {
+        // récupèrer le numéro du future champ à ajouter
+        const index = +$('#widgets-counterp').val();
+        // récupèrer le prototype html généré par symfony voir inspecter code
+        const tmpl = $('#product_prices').data('prototype').replace(/__name__/g, index);
+        //injecter le code 
+        $('#product_prices').append(tmpl);
+        $('#widgets-counterp').val(index + 1);
+        handleDeleteButtonsp();
+    });
+
+    function handleDeleteButtonsp() {
+        $('button[data-action="delete"]').click(function () {
+            const target = this.dataset.target;
+            $(target).remove();
+        });
+    }
+
+    function updatecounterp() {
+        const count = +$('#product_prices div.form-group').length;
+        $('#widgets-counterp').val(count);
+    }
+    updatecounterp();
+    handleDeleteButtonsp();
+</script>
 
 
-    {% endblock %}
+{% endblock %}

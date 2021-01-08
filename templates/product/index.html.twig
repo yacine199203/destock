@@ -44,10 +44,10 @@
                                 <div class="row justify-content-between px-4 border-bottom mx-3 ">
                                     <span class="my-auto">{{ product.productName }}</span>
                                     <div>
-                                        <a href="#">
+                                        <a href="{{path('editProduct',{'slug':product.slug})}}">
                                             <button class="btn pr-0 btnmdsup"><i class="fas fa-edit"></i></button>
                                         </a>
-                                        <a href="#"
+                                        <a href="{{path('removeProduct',{'id':product.id})}}"
                                             onclick="return confirm ('voulez vous vraiment supprimer {{ product.productName }} ?')">
                                             <button class="btn pr-0 btnmdsup delete"><i
                                                     class="far fa-trash-alt"></i></button>

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Repository\ProductRepository;
 use Symfony\Component\Form\FormError;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -113,12 +114,25 @@ class CategoryController extends AbstractController
      * @Route("/dashbord/supprimer-categorie/{categoryName} ", name="removeCategory")
      * @return Response
      */
-    public function removeCategory($categoryName,CategoryRepository $categoryRepo)
+    public function removeCategory($categoryName,CategoryRepository $categoryRepo,ProductRepository $productRepo)
     {   
         $removeCategory = $categoryRepo->findOneBySlug($categoryName);
+        $products = $productRepo->findByCategory($removeCategory->getId());
         $file= $removeCategory->getImage();
         if($removeCategory->getImage() != null){
             unlink('../public/images/'.$file);
+        }
+        foreach ($products as $productPng){
+            unlink('../public/images/'.$productPng->getPng());
+        }
+        foreach ($products as $productImage){
+            foreach ($productImage->getProductImages() as $pi)
+            {
+                unlink('../public/images/'.$pi->getImage());
+            }
+        }
+        foreach ($products as $productPdf){
+            unlink('../public/fiches-technique/'.$productPdf->getPdf());
         }
         $manager=$this->getDoctrine()->getManager();
         $manager->remove($removeCategory); 
