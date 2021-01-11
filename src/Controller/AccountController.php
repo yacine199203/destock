@@ -41,7 +41,7 @@ class AccountController extends AbstractController
 
     /**
      * @Route("/dashbord/utilisateurs", name="user")
-     * @IsGranted("ROLE_ADMIN")
+
      */
     public function index(UserRepository $userRepo): Response
     {
@@ -55,7 +55,7 @@ class AccountController extends AbstractController
     /**
      * permet d'ajouter un utilisateur 
      * @Route("/dashbord/ajouter-utilisateur", name="addUser")
-     * @IsGranted("ROLE_ADMIN")
+
      * @return Response
      */
     public function addUser(Request $request,UserPasswordEncoderInterface $encoder)
@@ -85,7 +85,7 @@ class AccountController extends AbstractController
     /**
      * permet de modifier un utilisateur 
      * @Route("/dashbord/modifier-utilisateur/{id}/{slug}", name="editUser")
-     * @IsGranted("ROLE_ADMIN")
+
      * @return Response
      */
     public function editUser($id,$slug,UserRepository $userRepo,Request $request)
@@ -113,7 +113,7 @@ class AccountController extends AbstractController
     /**
      * permet de modifier le mot de passe utilisateur 
      * @Route("/dashbord/modifier-mot-de-passe", name="updatePass")
-     * @IsGranted("ROLE_ADMIN")
+  
      * @return Response
      */
     public function updatePass(UserRepository $userRepo,Request $request,UserPasswordEncoderInterface $encoder)
@@ -151,7 +151,7 @@ class AccountController extends AbstractController
     /**
      * permet de supprimer un utilisateur
      * @Route("/dashbord/supprimer-utilisatuer/{id} ", name="removeUser")
-     * @IsGranted("ROLE_ADMIN")
+ 
      * @return Response
      */
     public function removeUser($id,UserRepository $userJobRepo)
