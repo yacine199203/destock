@@ -1,0 +1,24 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Ajouter un utilisateur{% endblock %}
+
+{% block arbo %}
+<a href="{{path('home_page')}}">Accueil</a> / <a href="{{path('user')}}">utilisateur</a> / <span>Ajouter un utilisateur</span>
+{% endblock %}
+
+{% block mbody %}
+<div class="p-5 border rounded bg-light">
+    <div class="mb-3 text-center">
+        <h1 style="font-weight: 500;">Ajouter un utilisateur</h1>
+    </div>
+
+    {{ form_start(addUserForm) }}
+    {{ form_widget(addUserForm) }}
+    <div class="modal-footer px-0">
+        <button type="submit" class="btn btn-primary" style="font-size: 16px;">Enregistrer</button>
+    </div>
+    {{ form_end(addUserForm) }}
+</div>
+{% endblock %}
+{% block javascripts %}
+{% endblock %}

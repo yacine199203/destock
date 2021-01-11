@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SliderController extends AbstractController
@@ -16,6 +17,7 @@ class SliderController extends AbstractController
     /**
      * permet de voir la liste des catégories
      * @Route("/dashbord/slider", name="slider")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function showCategory(SliderRepository $slidersRepo): Response
     {
@@ -28,6 +30,7 @@ class SliderController extends AbstractController
     /**
      * permet d'ajouter un slider
      * @Route("/dashbord/ajouter-slid", name="addSlid")
+     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function addSlid(Request $request)
@@ -69,6 +72,7 @@ class SliderController extends AbstractController
     /**
      * permet de supprimer un slid
      * @Route("/dashbord/supprimer-slid/{image} ", name="removeSlid")
+     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function removeSlid($image,SliderRepository $slidersRepo)

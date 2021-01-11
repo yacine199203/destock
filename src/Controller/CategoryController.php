@@ -10,6 +10,7 @@ use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategoryController extends AbstractController
@@ -18,6 +19,7 @@ class CategoryController extends AbstractController
     /**
      * permet de voir la liste des catégories
      * @Route("/dashbord/categories", name="category")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function showCategory(CategoryRepository $categoryRepo): Response
     {
@@ -30,6 +32,7 @@ class CategoryController extends AbstractController
     /**
      * permet d'ajouter une catégorie 
      * @Route("/dashbord/ajouter-categorie", name="addCategory")
+     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function addCategory(CategoryRepository $categoryRepo,Request $request)
@@ -71,6 +74,7 @@ class CategoryController extends AbstractController
     /**
      * permet de modifier une catégorie
      * @Route("/dashbord/modifier-categorie/{categoryName} ", name="editCategory")
+     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function editCategory($categoryName,CategoryRepository $categoryRepo,Request $request)
@@ -112,6 +116,7 @@ class CategoryController extends AbstractController
     /**
      * permet de supprimer une catégorie
      * @Route("/dashbord/supprimer-categorie/{categoryName} ", name="removeCategory")
+     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function removeCategory($categoryName,CategoryRepository $categoryRepo,ProductRepository $productRepo)

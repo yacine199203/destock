@@ -8,16 +8,78 @@
     <div class="row">
         <div class="col-md-3 pr-4 border bg-light">
             <div class="p-2 border-bottom">
-                <h5>Yacine Bouadjenek</h5>
+                {% if app.user %}
+                <h5 class="my-2">{{app.user.firstName}} {{app.user.lastName}}</h5>
+                {% endif %}
             </div>
             <div class="p-3">
-                <a href="{{path('dashbord')}}" class="nav-link"><i class="fas fa-cog"></i> Dashbord</a>
-                <a href="#" class="nav-link"><i class="fas fa-user"></i> Utilisateurs</a>
-                <a href="{{path('job')}}" class="nav-link"><i class="fas fa-store"></i> Métiers</a>
-                <a href="{{path('category')}}" class="nav-link"><i class="fas fa-list"></i> Catégories</a>
-                <a href="{{path('product')}}" class="nav-link"><i class="fas fa-shopping-cart"></i></i> Produits</a>
-                <a href="{{path('slider')}}" class="nav-link"><i class="far fa-images"></i> Slider</a>
+                <table class="tab">
 
+                    <tr>
+                        <td><center><i class="fas fa-cog"></i></center></td>
+                        <td>
+                            <a href="{{path('dashbord')}}" class="nav-link px-0">
+                                Dashbord
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><center><i class="fas fa-user"></i></center></td>
+                        <td>
+                            <a href="{{path('user')}}" class="nav-link px-0">
+                                Utilisateurs
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><center><i class="fas fa-store"></i></center></td>
+                        <td>
+                            <a href="{{path('job')}}" class="nav-link px-0">
+                                Métiers
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><center><i class="fas fa-list"></i></center></td>
+                        <td>
+                            <a href="{{path('category')}}" class="nav-link px-0">
+                                Catégories
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><center><i class="fas fa-shopping-cart"></i></center></td>
+                        <td>
+                            <a href="{{path('product')}}" class="nav-link px-0">
+                                Produits
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><center><i class="far fa-images"></i></center></td>
+                        <td>
+                            <a href="{{path('slider')}}" class="nav-link px-0">
+                                Slider
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><center><i class="fas fa-camera-retro"></i></center></td>
+                        <td>
+                            <a href="#" class="nav-link px-0">
+                                Réalisations
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><center><i class="fas fa-envelope-open-text"></i></center></td>
+                        <td>
+                            <a href="#" class="nav-link px-0">
+                                Newsletter
+                            </a>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
         <div class="col-md-9">

@@ -1,0 +1,44 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block arbo %}
+<a href="{{path('home_page')}}">Accueil</a> / <span>Utilisateurs</span>
+{% endblock %}
+
+{% block mbody %}
+<div class="container">
+    <div class="mb-3 text-center">
+        <h1 style="font-weight: 500;">Utilisateurs</h1>
+    </div>
+
+    <div class="row justify-content-end mx-2">
+        <a href="{{ path('addUser')}}">
+            <button class="btn btn-primary my-2" type="button">
+                Ajouter
+            </button>
+        </a>
+    </div>
+    <div class="row mx-2 p-2 category">
+        <div class="col-12">
+            {% for user in users %}
+            <div class="row justify-content-between px-4 border-bottom mx-3 ">
+                <span class="my-auto">{{user.firstName}} {{user.lastName}}</span>
+                <div>
+                    <a href="{{ path('editUser',{'id': user.id,'slug': user.slug}) }}">
+                        <button class="btn pr-0 btnmdsup"><i class="fas fa-edit"></i></button>
+                    </a>
+                    <a href="{{ path('updatePass') }}">
+                        <button class="btn pr-0 btnmdsup"><i class="fas fa-lock"></i></button>
+                    </a>
+                    <a href="{{ path('removeUser',{'id': user.id}) }}"
+                        onclick="return confirm ('voulez vous vraiment supprimer {{user.firstName}} {{user.lastName}} ? ')">
+                        <button class="btn pr-0 btnmdsup delete"><i class="far fa-trash-alt"></i></button>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

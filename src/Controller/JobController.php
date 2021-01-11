@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class JobController extends AbstractController
@@ -16,7 +17,8 @@ class JobController extends AbstractController
    
     /**
      * permet de voir les métiers
-     * @Route("/metiers", name="job")
+     * @Route("/dashbord/metiers", name="job")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(JobRepository $jobRepo): Response
     {
@@ -29,6 +31,7 @@ class JobController extends AbstractController
     /**
      * permet d'ajouter un métier 
      * @Route("/dashbord/ajouter-metier", name="addJob")
+     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function addJob(Request $request)
@@ -75,6 +78,7 @@ class JobController extends AbstractController
     /**
      * permet de modifier un métier 
      * @Route("/dashbord/modifier-metier/{id}", name="editJob")
+     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function editJob($id,JobRepository $jobRepo,Request $request)
@@ -118,6 +122,7 @@ class JobController extends AbstractController
     /**
      * permet de supprimer un métier
      * @Route("/dashbord/supprimer-metier/{id} ", name="removeJob")
+     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function removeCategory($id,JobRepository $jobRepo)

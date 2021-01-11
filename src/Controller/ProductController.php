@@ -16,6 +16,7 @@ use App\Repository\ProductImagesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProductController extends AbstractController
@@ -35,6 +36,7 @@ class ProductController extends AbstractController
     /**
     * permet d'ajouter un produit
      * @Route("/dashbord/ajouter-produit", name="addProduct")
+     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function addProduct(Request $request)
@@ -149,6 +151,7 @@ class ProductController extends AbstractController
     /**
     * permet de modifier un produit
      * @Route("/dashbord/modifier-produit/{slug}", name="editProduct")
+     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function editProduct($slug,ProductRepository $productRepo,Request $request)
@@ -263,6 +266,7 @@ class ProductController extends AbstractController
 
     /**
     * @Route("/supprimer-images-produit/{id}", name="removePi")
+    * @IsGranted("ROLE_ADMIN")
     */
     public function deleteImage( $id,ProductImagesRepository $piRepo)
     {
@@ -279,6 +283,7 @@ class ProductController extends AbstractController
 
     /**
     * @Route("/supprimer-metiers-produit/{id}", name="removePj")
+    * @IsGranted("ROLE_ADMIN")
     */
     public function deleteJob( $id,JobProductRepository $pjRepo)
     {
@@ -292,6 +297,7 @@ class ProductController extends AbstractController
     /**
      * permet de supprimer un produit
      * @Route("/dashbord/supprimer-produit/{id} ", name="removeProduct")
+     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function removeProduct($id,ProductRepository $productRepo)

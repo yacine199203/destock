@@ -1,0 +1,46 @@
+{% block body %}
+<div class="rounded shadow-sm border col-12 ">
+    {% for cat in header.categorys %}
+
+    <div class="toto">
+        <div class="tete px-1 row justify-content-between border " style="background-color:#eee">
+            <a href="#" class="p-2 ">
+                <strong>{{cat.categoryName}}</strong>
+            </a>
+            <a href="#" class="p-2 slid"><i class="fas fa-plus text-primary"></i></a>
+        </div>
+        <div class="corp">
+            <div class="p-2  d-flex flex-column">
+                {% for product in cat.products %}
+                <a href="#"
+                    class="my-1">{{ product.productName }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock body %}
+
+{% block javascripts %}
+<script>
+    $('.corp').hide();
+
+    $('a.slid').each(function(l){
+        $(this).on('click', function (e) {
+            e.preventDefault();
+            if($(this).children('i').hasClass('fa-plus')){
+                $(this).parent().siblings('.corp').show('200');
+                $(this).children('i').removeClass('fa-plus');
+                $(this).children('i').addClass('fa-minus');
+            }else{
+                $(this).parent().siblings('.corp').hide('200');
+                $(this).children('i').removeClass('fa-minus');
+                $(this).children('i').addClass('fa-plus');   
+            }
+        });
+    })
+    
+</script>
+{% endblock %}

@@ -114,7 +114,33 @@
         </div>
         <br>
     </div>
-
 </div>
+    {#*********************************** NEWSLETTER ***********************************#}
+
+    <center>
+
+        <div class="mt-5 py-4" style="background-color: #efeeea;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="mb-4">NEWSLETTER</h2>
+                        <h5 class="my-4">SUIVEZ NOTRE ACTUALITÉ EN VOUS INSCRIVANT DÉS MAINTENANT SUR NOTRE NEWSLETTER !
+                        </h5>
+                    </div>
+
+                    <div class="col-md-12 px-5">
+                        {{ form_start(newsletterForm) }}
+                        <div class="d-lg-flex mx-5">
+                            <div class="p-1 w-100" >{{ form_widget(newsletterForm.name) }}</div>
+                            <div class="p-1 w-100" >{{ form_widget(newsletterForm.email) }}</div>
+                            <div class="p-1 "><button type="submit" class="btn btn-outline-dark" style="font-size: 16px;">Envoyer</button></div>
+                        </div>
+                        {{ form_end(newsletterForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center> 
 
 {% endblock %}
+
