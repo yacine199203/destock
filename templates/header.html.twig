@@ -3,11 +3,11 @@
         <nav class="navbar navbar-expand-lg navbar-light  pb-0 px-0">
             <a class="navbar-brand mr-auto" href="{{path('home_page')}}"><img src="/images/logo.png" alt="logo"></a>
             {% if app.user %}
-            <a class="nav-link p-1" href="{{path('logout')}}"><i class="fas fa-sign-out-alt"></i> <span style="font-size: 15px;">Déconnexion</span></a>
+            <a class="nav-link p-1" href="{{path('logout')}}"><i class="fas fa-sign-out-alt"></i> <span style="font-size: 15px;"class="d-none d-lg-inline">Déconnexion</span></a>
             {% else %}
-                <a class="nav-link p-1" href="{{path('login')}}"><i class="fas fa-user"></i> <span style="font-size: 15px;">Mon compte</span></a>
+                <a class="nav-link p-1" href="{{path('login')}}"><i class="fas fa-user"></i> <span style="font-size: 15px;" class="d-none d-lg-inline">Mon compte</span></a>
             {% endif %}
-            <a class="nav-link p-1" href="#"><i class="fas fa-shopping-cart"></i> <span style="font-size: 15px;"> Panier(0)</span></a>
+            <a class="nav-link p-1" href="#"><i class="fas fa-shopping-cart"></i> <span style="font-size: 15px;"class="d-none d-lg-inline"> Panier(0)</span></a>
         </nav>
         <nav class="navbar navbar-expand-lg navbar-light px-0">
 
