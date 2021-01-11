@@ -68,67 +68,76 @@ class ProductController extends AbstractController
                 elseif($filePdf->guessExtension()!='pdf')
                 {
                     $addProdForm->get('pdf')->addError(new FormError("votre fichier doit être en format pdf"));
-                }
-                foreach($fileImage as $img)
+                }else
                 {
-                    if($img->guessExtension()!='png')
+                    foreach($fileImage as $img)
                     {
-                        $addProdForm->get('image')->addError(new FormError("vos images doivent être en format png"));
+                        if($img->guessExtension()!='png')
+                        {
+                            $addProdForm->get('image')->addError(new FormError("vos images doivent être en format png"));
+                            $this->addFlash(
+                                'danger',
+                                "Le produit n'a pas été ajouté, la galerie photo contient un fichier qui n'est pas au format png"
+                            );
+                            return $this-> redirectToRoute('product');
+
+                        }
                     }
-                }
-
-                $fileNamePng=  uniqid().'.'.$filePng->guessExtension();
-                $fileNamePdf=  uniqid().'.'.$filePdf->guessExtension();
-
-                $filePng->move($this->getParameter('upload_directory_png'),$fileNamePng);
-                $filePdf->move($this->getParameter('upload_directory_pdf'),$fileNamePdf);
-                $addProduct->setPng($fileNamePng);
-                $addProduct->setPdf($fileNamePdf);
-
-                $manager=$this->getDoctrine()->getManager();
-                foreach($fileImage as $image){
-                    // On génère un nouveau nom de fichier
-                    $fileNameImage = md5(uniqid()).'.'.$image->guessExtension();
-                    
-                    // On copie le fichier dans le dossier uploads
-                    $image->move(
-                        $this->getParameter('upload_directory_png'),
-                        $fileNameImage
+    
+                    $fileNamePng=  uniqid().'.'.$filePng->guessExtension();
+                    $fileNamePdf=  uniqid().'.'.$filePdf->guessExtension();
+    
+                    $filePng->move($this->getParameter('upload_directory_png'),$fileNamePng);
+                    $filePdf->move($this->getParameter('upload_directory_pdf'),$fileNamePdf);
+                    $addProduct->setPng($fileNamePng);
+                    $addProduct->setPdf($fileNamePdf);
+    
+                    $manager=$this->getDoctrine()->getManager();
+                    foreach($fileImage as $image){
+                        // On génère un nouveau nom de fichier
+                        $fileNameImage = md5(uniqid()).'.'.$image->guessExtension();
+                        
+                        // On copie le fichier dans le dossier uploads
+                        $image->move(
+                            $this->getParameter('upload_directory_png'),
+                            $fileNameImage
+                        );
+                        
+                        // On crée l'image dans la base de données
+                        $img = new ProductImages();
+                        $img->setImage($fileNameImage);
+                        $addProduct->addProductImage($img);
+                    }
+    
+    
+                    $jobProdData = $addProdForm->get('jobProducts')->getData();
+                    foreach($jobProdData as $jp){
+                        $r= new JobProduct();
+                        $r->setJob($jp);
+                        $addProduct->addJobProduct($r);
+                    }
+    
+                    foreach ($addProduct->getPrices() as $price)
+                    {
+                        $price->setProduct($addProduct);
+                        $manager->persist($price);
+                    }
+    
+                    foreach ($addProduct->getCharacteristics() as $chara)
+                    {
+                        $chara->setProduct($addProduct);
+                        $manager->persist($chara);
+                    }
+    
+                    $manager->persist($addProduct); 
+                    $manager->flush();
+                    $this->addFlash(
+                        'success',
+                        "Le produit <strong>".$addProduct->getProductName()."</strong> a bien été ajouté "
                     );
-                    
-                    // On crée l'image dans la base de données
-                    $img = new ProductImages();
-                    $img->setImage($fileNameImage);
-                    $addProduct->addProductImage($img);
+                    return $this-> redirectToRoute('product'); 
                 }
-
-
-                $jobProdData = $addProdForm->get('jobProducts')->getData();
-                foreach($jobProdData as $jp){
-                    $r= new JobProduct();
-                    $r->setJob($jp);
-                    $addProduct->addJobProduct($r);
-                }
-
-                foreach ($addProduct->getPrices() as $price)
-                {
-                    $price->setProduct($addProduct);
-                    $manager->persist($price);
-                }
-
-                foreach ($addProduct->getCharacteristics() as $chara)
-                {
-                    $chara->setProduct($addProduct);
-                    $manager->persist($chara);
-                }
-
-                $manager->persist($addProduct); 
-                $manager->flush();
-                $this->addFlash(
-                    'success',
-                    "Le produit <strong>".$addProduct->getProductName()."</strong> a bien été ajouté "
-                );
-                return $this-> redirectToRoute('product'); 
+                
             }
         }
         return $this->render('product/addProduct.html.twig', [

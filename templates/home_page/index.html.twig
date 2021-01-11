@@ -3,8 +3,11 @@
 {% block title %}Matériel frigorifique et equipements{% endblock %}
 
 {% block body %}
-{#*********************************** SLIDER ***********************************#}
+
 <div class="container">
+
+    {#*********************************** SLIDER ***********************************#}
+
     <div id="carouselExampleIndicators" class="carousel slide shadow-lg mt-2" data-ride="carousel">
         <ol class="carousel-indicators">
             {% for slider in sliders %}
@@ -28,6 +31,90 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+
+    {#*********************************** PRODUITS PAR MÉTIER ***********************************#}
+
+    <center>
+        <h3 class="my-5">NOS PRODUITS PAR MÉTIER</h3>
+    </center>
+
+    <div class="row justify-content-center">
+        {% for jb in header.jobs %}
+        <div class="col-10 col-md-4 ">
+            <a href="#">
+                <div class="single-works">
+                    <img src="/images/{{jb.image}}">
+                    <div class="overlay-text">
+                        <br>
+                        <h5 class="title">{{jb.jobName|upper}}</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    {#*********************************** QUI SOMMES NOUS ***********************************#}
+
+    <center>
+        <h3 class="my-5">QUI SOMMES NOUS ?</h3>
+    </center>
+    <div class="col--md-12 d-lg-flex border border-dark text-justify p-4 rounded">
+
+        <div class="col-md-6">
+            <p>&emsp;&emsp;SIMAFE Sarl est une entreprise industrielle créée en 1978 spécialisée dans la réfrigération
+                commerciale et l’agencement des hôtels, restaurants, cafétérias, snacks, pâtisseries, boucheries,
+                supérettes, grande distribution et autres structures de prestation à usage alimentaire et de métiers de
+                bouche.</p>
+            <p>&emsp;&emsp;SIMAFE dispose d’usines modernes sur une superficie totale de 12 000m2, dotées d’un service
+                de
+                recherche et développement afin de satisfaire toutes les exigences du marché. les process de production
+                sont
+                modernes, nos lignes de production à commandes numériques et toutes les étapes de production sont
+                minutieusement contrôlées pour garantir une qualité et une fiabilité optimale…</p>
+            <br>
+            <p>Pour visiter nos showrooms en vue 360° <a
+                    href="https://www.google.com/maps/place/Direction+SARL+SIMAFE/@36.7484672,5.0713481,3a,90y,235.23h,68.73t/data=!3m7!1e1!3m5!1sAF1QipMnAeQRmmkkff3kDuP-7MAhBXGrf8ePqoKwW0pu!2e10!3e11!7i12384!8i6192!4m8!1m2!2m1!1sSIMAFE+360!3m4!1s0x12f2ccba99c17089:0x4c1bf9d067b88599!8m2!3d36.7482105!4d5.0710303"
+                    target="_BLANK">CLIQUEZ ICI</a></p>
+        </div>
+        <div class="col-md-6 align-self-center">
+            <img class="w-100 my-auto" src="/images/presentation.png" alt="">
+        </div>
+
+    </div>
+
+    {#*********************************** PROJET ***********************************#}
+    <center>
+        <h3 class="my-5">VOUS AVEZ UN PROJET ?</h3>
+    </center>
+
+    <div class=" row border p-4 my-3 mx-0 shadow rounded" style=" background-color: #043661;color: white;">
+
+        <div class="container">
+            <div class="row p-3">
+                <p class="text-center">
+                    Nous étudions toutes les demandes concernant l’agencement hôtelier, quelle que soit la taille de
+                    votre
+                    établisement. Contacter SIMAFE, c’est choisir une solution d'agencement répondant au spécifications
+                    de
+                    l’hôtellerie, une garantie sur la qualité, la valorisation de votre établissement et un engagement
+                    sur
+                    le respect des délais et du budget.
+                </p>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <a href="#">
+                    <button type="button" class="btn btn-outline-light m-3">Nos réalisations</button>
+                </a>
+                <a href="#">
+                    <button type="button" class="btn btn-outline-light m-3">Nous contacter</button>
+                </a>
+            </div>
+        </div>
+        <br>
+    </div>
+
 </div>
 
 {% endblock %}
