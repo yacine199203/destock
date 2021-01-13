@@ -1,0 +1,98 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Newsletter{% endblock %}
+
+
+
+{% block body %}
+
+<div class="container">
+
+    <div class="row justify-content-center my-5">
+        <h1 style="font-weight: 500;">{{ 'Newsletter'}}</h1>
+    </div>
+
+    <div class="row justify-content-end mx-2">
+        <a href="{{path('sendEmail')}}">
+            <button class="btn btn-primary m-2" type="button">
+                Envoyer un email
+            </button>
+        </a>
+        <a href="{{ path('emails')}}" target="_blank">
+            <button class="btn btn-primary m-2" type="button">
+                Voir les adresses mail
+            </button>
+        </a>
+    </div>
+
+    <div class="row mx-2 p-2 category">
+        <div class="col-12">
+            {% for subscriber in subscribers %}
+            {% if subscriber.unsubscribe == false %}
+            <div class="row justify-content-between px-4 border-bottom mx-3 ">
+                {% if subscriber.status == false %}
+                <span class="my-auto">
+                    {{subscriber.name}}
+                </span>
+                {% else %}
+                <span class="my-auto">
+                    {{subscriber.name}}
+                </span>
+                {% endif %}
+
+                <div>
+                    <a href="{{ path('removeSubscribers',{'id': subscriber.id}) }}"
+                        onclick="return confirm ('voulez vous vraiment supprimer {{subscriber.name}} ?')">
+                        <button class="btn pr-0 btnmdsup delete"><i class="far fa-trash-alt"></i></button>
+                    </a>
+                    <a href="{{ path('statusEmail',{'id': subscriber.id}) }}">
+                        <button class="btn pr-0 btnmdsup">
+                            {% if subscriber.status == false %}
+                            <button class="btn btn-success py-0">V</button>
+                            {% else %}
+                            <button class="btn btn-danger py-0">D</button>
+                            {% endif %}
+                        </button>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row justify-content-center my-5">
+        <h1 style="font-weight: 500;">{{ 'Abonnés à supprimer' }}</h1>
+    </div>
+
+    <div class="row justify-content-end mx-2">
+        <a href="{{ path('removeSubAll')}}"
+            onclick="return confirm ('voulez vous vraiment supprimer tous les abonnés')">
+            <button class="btn btn-danger my-2" type="button">
+                Vider
+            </button>
+        </a>
+    </div>
+    <div class="row mx-2 p-2 category">
+        <div class="col-12">
+            {% for subscriber in subscribers %}
+            {% if subscriber.unsubscribe == true %}
+            <div class="row justify-content-between px-4 border-bottom mx-3 ">
+                <span class="my-auto">{{subscriber.email}}</span>
+                <div>
+                    <a href="{{ path('removeSubscribers',{'id': subscriber.id}) }}"
+                        onclick="return confirm ('voulez vous vraiment supprimer {{subscriber.name}} ? \ntous les produits inclus dans cette catégorie seront aussi supprimé')">
+                        <button class="btn pr-0 btnmdsup delete"><i class="far fa-trash-alt"></i></button>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}

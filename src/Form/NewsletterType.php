@@ -18,7 +18,7 @@ class NewsletterType extends AbstractType
         ->add('name',TextType::class,[
             'label'=>false,
             'attr'=>[
-                'placeholder'=>'Votre nom'    
+                'placeholder'=>'Votre nom / société'    
             ]
         ])
         ->add('email',EmailType::class,[

@@ -100,7 +100,7 @@ class AccountController extends AbstractController
             $manager->flush();
             $this->addFlash(
                 'success',
-                "L'utilisateur ".$editUser->getFirstName()." ".$editUser->getLastName()." a bien été modifié"
+                "L'utilisateur <strong>".$editUser->getFirstName()." ".$editUser->getLastName()."</strong> a bien été modifié"
             );
             return $this-> redirectToRoute('user');
         }  

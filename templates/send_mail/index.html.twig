@@ -1,0 +1,29 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Envoyer un email{% endblock %}
+
+{% block arbo %}
+<a href="{{path('home_page')}}">Accueil</a> / <a href="{{path('category')}}">Newsletter</a> / <span>Envoyer un email</span>
+{% endblock %}
+
+{% block mbody %}
+<div class="p-5 border rounded bg-light">
+    <div class="mb-3 text-center">
+        <h1 style="font-weight: 500;">Envoyer un email</h1>
+    </div>
+
+    {{ form_start(sendMail) }}
+    {{ form_widget(sendMail) }}
+    <div class="modal-footer px-0">
+        <button type="submit" class="btn btn-primary" style="font-size: 16px;">Envoyer</button>
+    </div>
+    {{ form_end(sendMail) }}
+</div>
+{% endblock %}
+{% block javascripts %}
+
+<script type="text/javascript">
+    $("input[type=file]").change(function (e) { $(this).next('.custom-file-label').text(e.target.files[0].name); });
+</script>
+
+{% endblock %}

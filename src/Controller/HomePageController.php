@@ -21,14 +21,14 @@ class HomePageController extends AbstractController
         $newsletter = new Newsletter();
         $newsletterForm = $this->createForm(NewsletterType::class,$newsletter);
         $newsletterForm-> handleRequest($request);
-        if($newsletterForm->isSubmitted() && $newsletterForm->isValid() && empty($editCatForm->get('description')->getData()))
+        if($newsletterForm->isSubmitted() && $newsletterForm->isValid() && empty($newsletterForm->get('description')->getData()))
         {
             $manager=$this->getDoctrine()->getManager();
             $newsletter->setStatus(false);
             $newsletter->setUnsubscribe(false);
             $manager->persist($newsletter); 
             $manager->flush();
-            return $this-> redirectToRoute('homePage');
+            return $this-> redirectToRoute('home_page');
         }   
         return $this->render('/home_page/index.html.twig', [
             'sliders' => $sliders,

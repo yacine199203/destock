@@ -2,11 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\NewsletterRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\NewsletterRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=NewsletterRepository::class)
+ * @UniqueEntity(
+ * fields={"email"},
+ * message="cet email existe déja"
+ * )
  */
 class Newsletter
 {
@@ -49,7 +54,7 @@ class Newsletter
 
     public function setName(string $name): self
     {
-        $this->name = $name;
+        $this->name = mb_strtoupper($name, 'UTF-8');
 
         return $this;
     }
