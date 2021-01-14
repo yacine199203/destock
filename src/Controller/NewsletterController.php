@@ -52,25 +52,34 @@ class NewsletterController extends AbstractController
         {
             $mail= $sendMail->getData();
             
-            foreach($to as $t)
+            if($mail['object'] == null)
             {
-                if($t->getStatus() != false)
+                $sendMail->get('object')->addError(new FormError("ce champ est vide"));
+            }elseif($mail['text'] == null)
+            {
+                $sendMail->get('text')->addError(new FormError("ce champ est vide"));
+            }else
+            {
+                foreach($to as $t)
                 {
-                    $message =(new \Swift_Message($mail['object']))
-                    ->setFrom('test.formation.tf@gmail.com')
-                    // On attribue le destinataire
-                    ->setTo($t->getEmail())
-                    // On crée le texte avec la vue
-                    ->setBody(
-                        $this->renderView(
-                            'send_mail/body.html.twig', compact('mail')
-                        ),
-                        'text/html'
-                    );
-                    $mailer->send($message);
+                    if($t->getStatus() != false)
+                    {
+                        $message =(new \Swift_Message($mail['object']))
+                        ->setFrom('test.formation.tf@gmail.com')
+                        // On attribue le destinataire
+                        ->setTo($t->getEmail())
+                        // On crée le texte avec la vue
+                        ->setBody(
+                            $this->renderView(
+                                'send_mail/body.html.twig', compact('mail')
+                            ),
+                            'text/html'
+                        );
+                        $mailer->send($message);
+                    }
                 }
+                return $this-> redirectToRoute('newsletter');
             }
-            return $this-> redirectToRoute('newsletter');
         }
         return $this->render('/send_mail/index.html.twig', [
             'sendMail'=>$sendMail->createView(),
