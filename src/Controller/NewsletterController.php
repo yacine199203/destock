@@ -54,19 +54,23 @@ class NewsletterController extends AbstractController
             
             foreach($to as $t)
             {
-                $message =(new \Swift_Message($mail['object']))
-                ->setFrom('test.formation.tf@gmail.com')
-                // On attribue le destinataire
-                ->setTo($t->getEmail())
-                // On crée le texte avec la vue
-                ->setBody(
-                    $this->renderView(
-                        'send_mail/body.html.twig', compact('mail')
-                    ),
-                    'text/html'
-                );
-                $mailer->send($message);
+                if($t->getStatus() != false)
+                {
+                    $message =(new \Swift_Message($mail['object']))
+                    ->setFrom('test.formation.tf@gmail.com')
+                    // On attribue le destinataire
+                    ->setTo($t->getEmail())
+                    // On crée le texte avec la vue
+                    ->setBody(
+                        $this->renderView(
+                            'send_mail/body.html.twig', compact('mail')
+                        ),
+                        'text/html'
+                    );
+                    $mailer->send($message);
+                }
             }
+            return $this-> redirectToRoute('newsletter');
         }
         return $this->render('/send_mail/index.html.twig', [
             'sendMail'=>$sendMail->createView(),

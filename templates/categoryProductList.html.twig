@@ -1,0 +1,54 @@
+{% extends "/modal.html.twig" %}
+
+{% block title %}{{category.categoryName}}{% endblock %}
+
+{% block arbo %}
+
+<div>
+    <a href="{{ path('home_page') }}">Accueil</a> /
+    {{category.categoryName}}
+</div>
+
+{% endblock %}
+{% block mbody %}
+
+{% if category.image == null %}
+<div class="mb-5 text-center">
+    <h1>{{category.categoryName}}</h1>
+</div>
+{% else %}
+    <div class="mb-5">
+        <img class="w-100" src="/images/{{category.image}}" alt="{{category.categoryName}}">
+    </div>
+{% endif %}
+
+{% if category.products|length == 1 %}
+<div style="font-size: 15px;"> {{category.products|length}} produit</div>
+{% else %}
+<div style="font-size: 15px;"> {{category.products|length}} produits</div>
+{% endif %}
+<div class="row">
+    {% for product in category.products  %}
+    <div class="col-md-4 p-3 col-6">
+        <div class="border shadow-sm rounded px-2 py-4 product text-center mx-auto">
+            <a href="#" class="py-1">
+                <img style="width: 100%" src="/images/{{product.png}}" alt="{{product.productName}}">
+            </a>
+            <h6 class="mb-1" style="font-weight: 700">{{category.categoryName}}</h6>
+            <div>
+                <a href="#">{{ product.productName }}</a>
+            </div>
+            <a href="#">
+                <button class="btn btn-primary py-1 my-2">En savoir plus</button>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+
+
+
+{% endblock %}

@@ -32,7 +32,7 @@
                 {% for cat in header.categorys %}
                 <div class="toto">
                     <div class="tete px-1 row justify-content-between border">
-                        <a href="#" class="p-2 ">
+                        <a href="{{ path('categoryproduct',{'slug': cat.slug}) }}" class="p-2 ">
                             <strong>{{cat.categoryName}}</strong>
                         </a>
                         <a href="#" class="p-2 slid"><i class="fas fa-plus text-primary"></i></a>

@@ -93,7 +93,10 @@ class CategoryController extends AbstractController
                 if($file != null && $file->guessExtension()=='png')
                 {
                     $unlinkFile= $editCategory->getImage();
-                    unlink('../public/images/'.$unlinkFile);
+                    if($unlinkFile != null)
+                    {
+                        unlink('../public/images/'.$unlinkFile);
+                    }
                     $fileName=  uniqid().'.'.$file->guessExtension();
                     $file->move($this->getParameter('upload_directory_png'),$fileName);
                     $editCategory->setImage($fileName);

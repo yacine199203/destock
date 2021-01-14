@@ -6,9 +6,11 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Entity\UpdatePass;
 use App\Form\EditUserType;
+use App\Form\SendMailType;
 use App\Form\UpdatePassType;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\FormError;
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -165,5 +167,58 @@ class AccountController extends AbstractController
             "L'utilisateur <strong>".$removeUser->getFirstName()." ".$removeUser->getLastName()."</strong> a bien été supprimé"
         );
         return $this-> redirectToRoute('user');
+    }
+
+    /**
+     * @Route("/dashbord/annonces/envoyer-email", name="annonces")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function sendEmail(Request $request,\Swift_Mailer $mailer,UserRepository $repo): Response
+    {
+        $to=$repo->findAll();
+        $sendMail = $this->createForm(SendMailType::class);
+        $sendMail-> handleRequest($request);
+        if($sendMail->isSubmitted() && $sendMail->isValid() && empty($sendMail->get('description')->getData()))
+        {
+            $mail= $sendMail->getData();
+            
+            foreach($to as $t)
+            {
+                
+                $message =(new \Swift_Message($mail['object']))
+                ->setFrom('test.formation.tf@gmail.com')
+                // On attribue le destinataire
+                ->setTo($t->getEmail())
+                // On crée le texte avec la vue
+                ->setBody(
+                    $this->renderView(
+                        'send_mail/body.html.twig', compact('mail')
+                    ),
+                    'text/html'
+                );
+                $mailer->send($message);
+               
+            }
+            return $this-> redirectToRoute('newsletter');
+        }
+        return $this->render('/send_mail/index.html.twig', [
+            'sendMail'=>$sendMail->createView(),
+        ]);
+    }
+
+    /***************************************************************************************************/
+
+    /**
+     * permet de voir la liste des produits dans une catégorie
+     * @Route("/categorie/{slug}", name="categoryproduct")
+     * 
+     * @return Response
+     */
+    public function showCategoryProduct($slug,CategoryRepository $categoryRepo)
+    {
+        $category = $categoryRepo->findOneBySlug($slug);
+        return $this->render('/categoryProductList.html.twig', [
+            'category'=> $category,
+        ]);
     }
 }
