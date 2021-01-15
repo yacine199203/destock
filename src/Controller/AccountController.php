@@ -205,20 +205,4 @@ class AccountController extends AbstractController
             'sendMail'=>$sendMail->createView(),
         ]);
     }
-
-    /***************************************************************************************************/
-
-    /**
-     * permet de voir la liste des produits dans une catégorie
-     * @Route("/categorie/{slug}", name="categoryproduct")
-     * 
-     * @return Response
-     */
-    public function showCategoryProduct($slug,CategoryRepository $categoryRepo)
-    {
-        $category = $categoryRepo->findOneBySlug($slug);
-        return $this->render('/categoryProductList.html.twig', [
-            'category'=> $category,
-        ]);
-    }
 }

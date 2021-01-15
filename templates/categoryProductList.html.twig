@@ -22,19 +22,17 @@
     </div>
 {% endif %}
 
-{% if category.products|length == 1 %}
-<div style="font-size: 15px;"> {{category.products|length}} produit</div>
-{% else %}
-<div style="font-size: 15px;"> {{category.products|length}} produits</div>
-{% endif %}
-<div class="row">
-    {% for product in category.products  %}
+
+<div style="font-size: 15px;">Total produits : {{category.products|length}}</div>
+
+<div class="row" style="min-height: 800px;">
+    {% for product in data  %}
     <div class="col-md-4 p-3 col-6">
         <div class="border shadow-sm rounded px-2 py-4 product text-center mx-auto">
             <a href="#" class="py-1">
                 <img style="width: 100%" src="/images/{{product.png}}" alt="{{product.productName}}">
             </a>
-            <h6 class="mb-1" style="font-weight: 700">{{category.categoryName}}</h6>
+            <h6 class="mb-1" style="font-weight: 700">{{product.category.categoryName}}</h6>
             <div>
                 <a href="#">{{ product.productName }}</a>
             </div>
@@ -45,10 +43,9 @@
     </div>
     {% endfor %}
 </div>
-
-
-
-
-
-
+<div class="row">
+    <div class=" navigation mx-auto ">
+        {{ knp_pagination_render(data) }}
+    </div>
+</div>
 {% endblock %}

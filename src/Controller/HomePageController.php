@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Newsletter;
 use App\Form\NewsletterType;
 use App\Repository\SliderRepository;
+use App\Repository\CategoryRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,6 +35,28 @@ class HomePageController extends AbstractController
         return $this->render('/home_page/index.html.twig', [
             'sliders' => $sliders,
             'newsletterForm'=> $newsletterForm->createView(),
+        ]);
+    }
+
+    /***************************************************************************************************/
+
+    /**
+     * permet de voir la liste des produits dans une catégorie
+     * @Route("/categorie/{slug}", name="categoryproduct")
+     * 
+     * @return Response
+     */
+    public function showCategoryProduct($slug,CategoryRepository $categoryRepo,Request $request, PaginatorInterface $paginator)
+    {
+        $category = $categoryRepo->findOneBySlug($slug);
+        $datap= $category->getProducts();
+        $data = $paginator->paginate(
+            $datap,$request->query->getInt('page',1),
+            6
+        );
+        return $this->render('/categoryProductList.html.twig', [
+            'category'=> $category,
+            'data'=> $data,
         ]);
     }
 }
