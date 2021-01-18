@@ -206,3 +206,18 @@ a:hover{
 .product:hover{
 	box-shadow:  -1px 1px 24px -6px rgba(0,0,0,0.23)! important;
 }
+
+/*********** PRODUIT PRESENTATION ***********/
+
+.product-title{
+	background-color: tomato;
+}
+
+.product-title div{
+	background-color: white;
+}
+
+.product-title div h4 {
+	color: #007bff ;
+	font-weight: 800;
+}

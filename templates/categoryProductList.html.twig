@@ -29,14 +29,16 @@
     {% for product in data  %}
     <div class="col-md-4 p-3 col-6">
         <div class="border shadow-sm rounded px-2 py-4 product text-center mx-auto">
-            <a href="#" class="py-1">
-                <img style="width: 100%" src="/images/{{product.png}}" alt="{{product.productName}}">
+            <a href="{{path('productPresentation',{'slug': category.slug,'productSlug': product.slug})}}" class="py-1">
+                <div class="w-100 p-4">
+                    <img class="w-100" src="/images/{{product.png}}" alt="{{product.productName}}">
+                </div>
             </a>
             <h6 class="mb-1" style="font-weight: 700">{{product.category.categoryName}}</h6>
             <div>
-                <a href="#">{{ product.productName }}</a>
+                <a href="{{path('productPresentation',{'slug': category.slug,'productSlug': product.slug})}}">{{ product.productName }}</a>
             </div>
-            <a href="#">
+            <a href="{{path('productPresentation',{'slug': category.slug,'productSlug': product.slug})}}">
                 <button class="btn btn-primary py-1 my-2">En savoir plus</button>
             </a>
         </div>

@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Newsletter;
 use App\Form\NewsletterType;
+use App\Repository\PriceRepository;
 use App\Repository\SliderRepository;
+use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,4 +61,54 @@ class HomePageController extends AbstractController
             'data'=> $data,
         ]);
     }
+
+    /**
+     * permet de voir la présentation du produit
+     * @Route("/categorie/{slug}/{productSlug}", name="productPresentation")
+     * 
+     * @return Response
+     */
+    public function showProductPresentation($slug,$productSlug,PriceRepository $priceRepo,CategoryRepository $categoryRepo,ProductRepository $productRepo)
+    {
+        $category = $categoryRepo->findOneBySlug($slug);
+        $product=$productRepo->findOneBySlug($productSlug);
+        $prices= $priceRepo->findOneByProduct($product->getId());
+      
+        return $this->render('/productPresentation.html.twig', [
+            'category'=> $category,
+            'product'=> $product,
+            'prices'=> $prices,
+        ]);
+    }
+
+    /**
+     * permet de voir la présentation du produit
+     * @Route("/categorie/{slug}/{productSlug}/{dim}", name="dim")
+     * 
+     * @return Response
+     */
+    public function dim($slug,$productSlug,$dim,PriceRepository $priceRepo,CategoryRepository $categoryRepo,ProductRepository $productRepo)
+    {
+        $category = $categoryRepo->findOneBySlug($slug);
+        $product=$productRepo->findOneBySlug($productSlug);
+        $prices= $priceRepo->findByProduct($product->getId());
+        $t=[];
+       
+        foreach($prices as $price)
+        {
+            $t[]=[
+                'dim'=>$price->getDimension(),
+                'price1'=> number_format($price->getPrice1(), 2, ',', ' '),
+                'price2'=>number_format($price->getPrice2(), 2, ',', ' '),
+                'price3'=>number_format($price->getPrice3(), 2, ',', ' '),
+            ];
+        }
+     
+        return $this->json(['code'=> 200, 'message'=>'prix selon dim',
+        'data'=>  $t],200);
+    }
+
+
+    
+    
 }
