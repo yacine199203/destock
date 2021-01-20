@@ -34,8 +34,8 @@
             <div class="row justify-content-between px-2 py-1 border-bottom mx-3 ">
 
                 <div class="col-8 pl-0 align-self-center ">
-                    <span >{{item.product.category.categoryName}} 
-                        <span class="product-val">{{item.product.productName}}</span> 
+                    <span>{{item.product.category.categoryName}}
+                        <span class="product-val">{{item.product.productName}}</span>
                         <span class="dim-val">{{item.dim}}</span>
                     </span>
                 </div>
@@ -82,24 +82,29 @@
     var d = 0;
 
     $('#valider').on('click', function () {
+
         $('.product-val').each(function () {
             product[i] = $(this).text();
             i++;
         });
+
         $('.dim-val').each(function () {
             dim[d] = $(this).text();
             d++;
         });
+
         $('.qty-val').each(function () {
             qty[j] = $(this).val();
             j++;
         });
+
         $('.price-val').each(function () {
-            price[s] = $(this).text().replace(' ','');
+            price[s] = $(this).text().replace(' ', '').replace(',00', '');
             s++;
         });
-        $(this).attr('href', 'ajouter/' + product + '/' + dim+ '/' + qty+ '/' + price)
-     
+
+        $(this).attr('href', 'ajouter/' + product + '/' + dim + '/' + qty + '/' + price)
+
     });
 </script>
 {% endblock %}

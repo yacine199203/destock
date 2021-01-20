@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Cart;
+use App\Entity\Commande;
+use App\Repository\PriceRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CommandeRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -102,14 +105,13 @@ class CommandeController extends AbstractController
     /**
      * @Route("/commande/ajouter/{product}/{dim}/{qty}/{price}", name="addCommande")
      */
-    public function addCommande($product,$dim,$qty,$price,CommandeRepository $commandeRepo,Request $request): Response
+    public function addCommande($product,$dim,$qty,$price,CommandeRepository $commandeRepo,ProductRepository $prodRepo,Request $request,PriceRepository $priceRepo): Response
     {
     
         $p=explode(',',$product);
         $d=explode(',',$dim);
         $q=explode(',',$qty);
-        $p=explode(',',$price);
-
+        $pr=explode(',',$price);
 
         $session = $request->getSession();
         $commandes = $commandeRepo->findBy(array(), array('id' => 'DESC'));
@@ -129,14 +131,80 @@ class CommandeController extends AbstractController
         $commande->setValid(false);
         for($j=0;$j<count($p);$j++)
         {
-        $inCart= new Cart();
-        $inCart->setProduct($p[$j]);
-        $inCart->setQte($q[$j]);
-        $commande->addCart($inCart);
+            $pid= $prodRepo->findOneByProductName($p[$j]);
+            
+            $product= $manager->createQuery('SELECT p.id FROM App\Entity\Price p WHERE p.product ='.$pid->getId().'AND p.dimension ='.$d[$j])->getResult();
+            $prid= $priceRepo->findOneById($product[0]);
+            
+            $inCart= new Cart();
+            $inCart->setProduct($product);
+            $prid->addCart($inCart);
+            $inCart->setQty($q[$j]);
+            $inCart->setPrice($pr[$j]);
+            $commande->addCart($inCart);
         }
         $manager->persist($commande);
         $manager->flush();
         $session->set('cart',[]);
         return $this-> redirectToRoute('commande');
+    }
+
+    /**
+     * @Route("/commande/valider/{id}", name="validateCommande")
+     */
+    public function validateCommande($id,CommandeRepository $commandeRepo,Request $request): Response
+    {
+        $valid= $commandeRepo->findOneById($id);
+        $valid->setValid(true);
+        $manager=$this->getDoctrine()->getManager();
+        $manager->persist($valid);
+        $manager->flush();
+        return $this-> redirectToRoute('commande');
+    }
+
+    /**
+     * permet de voir une commande
+     * @Route("/commande/ma-commande/{id} ", name="showCommande")
+     * @return Response
+     */
+    public function showeCommande($id,CommandeRepository $commandeRepo)
+    {   
+
+        $showCommande = $commandeRepo->findOneById($id);
+        $carts = $showCommande->getCarts();
+        $total=0;
+        foreach ($carts as $cart)
+        {
+            $total = $total + $cart->getQty() * $cart->getPrice();
+        }
+    
+        return $this->render('commande/showCommande.html.twig', [
+            'showCommande' => $showCommande,
+            'total' => $total,
+        ]);       
+        
+    }
+
+    /**
+     * permet de supprimer une commande
+     * @Route("/commande/supprimer/{id} ", name="removeCommande")
+     * @return Response
+     */
+    public function removeCommande($id,CommandeRepository $commandeRepo)
+    {   
+
+        $removeCommande = $commandeRepo->findOneById($id);
+        if($removeCommande->getValid()== false)
+        {
+            $manager=$this->getDoctrine()->getManager();
+            $manager->remove($removeCommande); 
+            $manager->flush();
+            $this->addFlash(
+                'success',
+                "La commande ".$removeCommande->getRef()." a bien été supprimée "
+            );
+        }
+        return $this-> redirectToRoute('commande');         
+        
     }
 }

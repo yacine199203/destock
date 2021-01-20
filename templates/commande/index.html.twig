@@ -1,20 +1,137 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CommandeController!{% endblock %}
+{% block title %}Commandes{% endblock %}
+
+
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="container">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/PC MC/Desktop/code/destock/src/Controller/CommandeController.php'|file_link(0) }}">src/Controller/CommandeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/PC MC/Desktop/code/destock/templates/commande/index.html.twig'|file_link(0) }}">templates/commande/index.html.twig</a></code></li>
-    </ul>
+    <div class="row justify-content-center my-5">
+        <h1 style="font-weight: 500;">{{ 'Commandes'|upper }}</h1>
+    </div>
+    <div class="row justify-content-end mx-2">
+        <a href="{{path('cart')}}">
+            <button class="btn btn-primary my-2" type="button">
+                Voir mon panier
+            </button>
+        </a>
+    </div>
+    {% if  is_granted('ROLE_EDITOR') %}
+    <div class="row justify-content-between border-bottom py-3 mx-2 ">
+        <input id="commande_ref" type="text" class="form-control category" placeholder="Tapez une référence">
+    </div>
+    {% endif %}
+    <div class="result category"></div>
+    <div class="row mx-2 p-2 category commande_all" style="min-width: 900px;">
+        <div class="col-12">
+
+            <div class="row justify-content-between px-2 py-1 border-bottom mx-3 ">
+                <div class="col-2 pl-0">
+                    <h6 style="font-weight: 800;">Réf</h6>
+                </div>
+                <div class="col-6 pl-0">
+                    <h6 style="font-weight: 800;">Client</h6>
+                </div>
+                <div class="col-2 pl-0">
+                    <h6 style="font-weight: 800;">date</h6>
+                </div>
+                <div class="col-2 pl-0">
+                </div>
+            </div>
+        
+            {% for commande in commandes %}
+            {% if (app.user == commande.user) or is_granted('ROLE_EDITOR') %}
+            <div class="row justify-content-between px-2 py-1 border-bottom mx-3 {% if (commande.valid == false) %}font-weight-bold {% endif %}">
+                <div class="col-2 pl-0 align-self-center">
+                    <span>{{commande.ref}}</span>
+                </div>
+                <div class="col-6 pl-0 align-self-center">
+                    <span>{{commande.user.lastName}} {{commande.user.firstName}}</span>
+                </div>
+                <div class="col-2 pl-0 align-self-center">
+                    <span>{{commande.createdAt|date("d/m/Y")}}</span>
+                </div>
+                <div class="col-2 pl-0 align-self-center">
+                    <div>
+
+                        <a href="{{path('showCommande',{'id': commande.id})}}">
+                            <button class="btn pr-0 btnmdsup"><i class="far fa-eye"></i></button>
+                        </a>
+                        
+                        {% if commande.valid == false %}
+                        <a href="{{path('removeCommande',{'id': commande.id})}}"
+                            onclick="return confirm ('voulez vous vraiment supprimer cette commande')">
+                            <button class="btn pr-0 btnmdsup delete"><i class="far fa-trash-alt"></i></button>
+                        </a>
+                        {% if is_granted('ROLE_EDITOR') %}
+                        <a href="{{path('validateCommande',{'id': commande.id})}}">
+                            <button class="btn pr-0 btnmdsup ">Valider</button>
+                        </a>
+                        {% endif %}
+                        {% else %}
+                        <span class="text-success ml-3"><i class="fas fa-check"></i></span>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $('.result').hide();
+    $('#commande_ref').on('keyup', function (e) {
+        
+        if ($('#commande_ref').val() != '') {
+            $('.commande_all').hide();
+            $('.result').show();
+            $.getJSON('commande/'+$('#commande_ref').val(), function (response) {
+                var result = '';
+                var valider ='';
+                for (var i = 0; i < response.data.length; i++) {
+                    if(!response.data[i].valid){
+                        valider= '<a href="/commande/valider/'+response.data[i].id+'">'+
+                            '<button class="btn pr-0 btnmdsup ">Valider</button>'+
+                        '</a>'
+                    }else{
+                        valider=''
+                    }
+                    result +=
+                    '<div class="row justify-content-between px-2 py-1 border-bottom mx-3">'+
+                        '<div class="col-2 pl-0 align-self-center">'+
+                            '<span>'+response.data[i].ref+'</span>'+
+                        '</div>'+
+                        '<div class="col-6 pl-0 align-self-center">'+
+                            '<span>'+response.data[i].user+'</span>'+
+                        '</div>'+
+                        '<div class="col-2 pl-0 align-self-center">'+
+                            '<span>'+response.data[i].date+'</span>'+
+                        '</div>'+
+                        '<div class="col-2 pl-0 align-self-center">'+
+                        '<a href="commande/ma-commande/' + response.data[i].id +'">'+
+                            '<button class="btn pr-0 btnmdsup"><i class="far fa-eye"></i></button>'+
+                        '</a>'+
+                        valider+
+                        '</div>'+
+                    '</div>'
+                };
+                console.log(response.data);
+                $('.result').html(result);
+        
+            });
+        }else
+        {
+            $('.commande_all').show();
+            $('.result').hide();
+        };
+        
+    });
+</script>
 {% endblock %}
