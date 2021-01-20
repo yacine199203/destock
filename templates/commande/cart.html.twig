@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande{% endblock %}
+
+
+
+{% block body %}
+
+<div class="container">
+    <div class="row justify-content-center my-5">
+        <h1 style="font-weight: 500;">{{'Mon panier'}}</h1>
+    </div>
+    {% if app.session.get('cart') is empty %}
+    <div class="row justify-content-center my-5">
+        <h3 style="font-weight: 500;">{{ 'Le panier est vide' }}</h3>
+    </div>
+    {% else %}
+    <div class="row mx-2 py-5 border border-dark rounded" style="min-width: 900px; min-height: 100%">
+        <div class="col-12">
+            <div class="row justify-content-between px-2 py-1 border-bottom mx-3 ">
+
+                <div class="col-8 pl-0 text-center">
+                    <h6 style="font-weight: 800;">Produit</h6>
+                </div>
+                <div class="col-1 pl-0 text-center">
+                    <h6 style="font-weight: 800;">Qté</h6>
+                </div>
+                <div class="col-2 pl-0 text-center">
+                    <h6 style="font-weight: 800;">Prix (TTC)</h6>
+                </div>
+                <div class="col-1 pl-0 text-center"></div>
+            </div>
+            {% for item in items %}
+            <div class="row justify-content-between px-2 py-1 border-bottom mx-3 ">
+
+                <div class="col-8 pl-0 align-self-center ">
+                    <span >{{item.product.category.categoryName}} 
+                        <span class="product-val">{{item.product.productName}}</span> 
+                        <span class="dim-val">{{item.dim}}</span>
+                    </span>
+                </div>
+
+                <div class="col-1 pl-0 align-self-center">
+                    <input type="number" min="1" value="{{item.qty}}" class="w-100 qty-val">
+                </div>
+
+                <div class="col-2 pl-0 align-self-center text-center">
+                    <span class="font-weight-bold price-val">{{item.price|number_format( 2, ',', ' ')}}</span>
+                </div>
+                <div class="col-1 pl-0">
+                    <div class="">
+                        <a href="{{ path('removeCart',{'id': item.product.id,'dim': item.dim,'price': item.price})}}"
+                            onclick="return confirm ('voulez vous vraiment supprimer ce produit')">
+                            <button class="btn pr-0 btnmdsup delete"><i class="far fa-trash-alt"></i></button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row mx-2">
+        <a href="#" id="valider">
+            <button class="btn btn-primary my-2" type="button">
+                Commander
+            </button>
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+{% block javascripts %}
+<script>
+    $('.montant').text();
+    var product = [];
+    var dim = [];
+    var qty = [];
+    var price = [];
+    var i = 0;
+    var j = 0;
+    var s = 0;
+    var d = 0;
+
+    $('#valider').on('click', function () {
+        $('.product-val').each(function () {
+            product[i] = $(this).text();
+            i++;
+        });
+        $('.dim-val').each(function () {
+            dim[d] = $(this).text();
+            d++;
+        });
+        $('.qty-val').each(function () {
+            qty[j] = $(this).val();
+            j++;
+        });
+        $('.price-val').each(function () {
+            price[s] = $(this).text().replace(' ','');
+            s++;
+        });
+        $(this).attr('href', 'ajouter/' + product + '/' + dim+ '/' + qty+ '/' + price)
+     
+    });
+</script>
+{% endblock %}

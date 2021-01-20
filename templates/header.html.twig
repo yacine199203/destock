@@ -7,7 +7,20 @@
             {% else %}
                 <a class="nav-link p-1" href="{{path('login')}}"><i class="fas fa-user"></i> <span style="font-size: 15px;" class="d-none d-lg-inline">Mon compte</span></a>
             {% endif %}
-            <a class="nav-link p-1" href="#"><i class="fas fa-shopping-cart"></i> <span style="font-size: 15px;"class="d-none d-lg-inline"> Panier(0)</span></a>
+            <a class="nav-link p-1" href="{{path('cart')}}">
+                <i class="fas fa-shopping-cart"></i>
+                {% if app.session.get('cart')|length > 0 %} 
+                   {% set color = 'danger' %}  
+                {% else %} 
+                    {% set color = 'dark' %}
+                {% endif %} 
+                <span style="font-size: 15px;"> 
+                   <span class="d-none d-lg-inline"> Panier</span> <span class=" cart badge  badge-{{color}} p-1" >
+                        {{app.session.get('cart')|length}}
+                    </span>
+                </span>
+                
+            </a>
         </nav>
         <nav class="navbar navbar-expand-lg navbar-light px-0">
 

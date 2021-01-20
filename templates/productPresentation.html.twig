@@ -12,6 +12,7 @@
 
 {% endblock %}
 {% block mbody %}
+
 {% if app.user == false %}
 <div class="row product-title mx-1 mb-3">
     <div class="col-12 pr-0 pl-2 py-3 ml-5">
@@ -63,19 +64,22 @@
                 <tbody>
                     <tr>
                         <td>Prix public :</td>
-                        <td><span class="pp font-weight-bold">{{prices.price1|number_format( 2, ',', ' ')}} DA</span>
+                        <td class="font-weight-bold"><span class="pp">{{prices.price1|number_format( 2, ',', ' ')}} </span> DA
                         </td>
                     </tr>
                     <tr>
                         <td>Prix revendeur :</td>
-                        <td><span class="pd font-weight-bold">{{prices.price2|number_format( 2, ',', ' ')}} DA</span>
+                        <td class="font-weight-bold"><span class="pr">{{prices.price2|number_format( 2, ',', ' ')}}</span> DA
                         </td>
                     </tr>
+
+                    {% if is_granted('ROLE_ADMIN') %}
                     <tr>
                         <td>Prix distributeur :</td>
-                        <td><span class="pr font-weight-bold">{{prices.price3|number_format( 2, ',', ' ')}} DA</span>
+                        <td class="font-weight-bold"><span class="pd">{{prices.price3|number_format( 2, ',', ' ')}}</span> DA
                         </td>
                     </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
@@ -86,9 +90,13 @@
                 <option class=" p-1">{{dim.dimension}}</option>
                 {% endfor %}
             </select>
+            <input class="prod-id" type="hidden" value="{{product.id}}">
         </div>
         <div class="mx-1">
-            <button class="btn btn-primary w-100 font-weight-bold"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+            <a href="#">
+                <button class="btn btn-primary w-100 font-weight-bold"><i class="fas fa-shopping-cart"></i>
+                    Ajouter</button>
+            </a>
         </div>
     </div>
     {% endif %}
@@ -145,6 +153,11 @@
 {% endblock %}
 {% block javascripts %}
 <script>
+    var t0 = $('.prod-id').val();
+    var t1 = $('.dim').val();
+    var t2 = $('.pp').text();
+    var t3 = $('.pr').text();
+    var t4 = $('.pd').text();
     $('.dim').click(function () {
         var url = $(location).attr("href");
         $.getJSON(url + '/dim', function (response) {
@@ -152,15 +165,36 @@
             for (var i = 0; i < response.data.length; i++) {
                 var val = $('.dim').val();
                 if (val == response.data[i].dim) {
-                    $('.pp').text(response.data[i].price1 + ' DA');
-                    $('.pd').text(response.data[i].price2 + ' DA');
-                    $('.pr').text(response.data[i].price3 + ' DA');
+                    $('.pp').text(response.data[i].price1);
+                    $('.pr').text(response.data[i].price2);
+                    $('.pd').text(response.data[i].price3);
+
+                    t1 = response.data[i].dim;
+                    t2 = response.data[i].price1;
+                    t3 = response.data[i].price2;
+                    t4 = response.data[i].price3;
                 }
             }
 
         })
 
     });
+    $('.btn').click(function (e) {
+        e.preventDefault();
+        var price='';
+        if (t4 != '') {
+            price = t4
+        } else {
+             price = t4
+        }
+        $.getJSON('/commande/panier/ajouter/'+t0+'/'+t1+'/'+price.replace(' ',''), function (response) {
+            $('.cart').text(response.data);
+            $('.cart').addClass('bg-danger');
+            console.log(+t0+'/'+t1+'/'+price.replace(' ',''))
+        })
+        
+
+    })
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"

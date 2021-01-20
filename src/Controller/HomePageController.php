@@ -83,11 +83,11 @@ class HomePageController extends AbstractController
 
     /**
      * permet de voir la présentation du produit
-     * @Route("/categorie/{slug}/{productSlug}/{dim}", name="dim")
+     * @Route("/categorie/{slug}/{productSlug}/dim", name="dim")
      * 
      * @return Response
      */
-    public function dim($slug,$productSlug,$dim,PriceRepository $priceRepo,CategoryRepository $categoryRepo,ProductRepository $productRepo)
+    public function dim($slug,$productSlug,PriceRepository $priceRepo,CategoryRepository $categoryRepo,ProductRepository $productRepo)
     {
         $category = $categoryRepo->findOneBySlug($slug);
         $product=$productRepo->findOneBySlug($productSlug);
@@ -105,7 +105,7 @@ class HomePageController extends AbstractController
         }
      
         return $this->json(['code'=> 200, 'message'=>'prix selon dim',
-        'data'=>  $t],200);
+        'data'=>  $t,'prod'=> $product->getId()],200);
     }
 
 

@@ -39,3 +39,11 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+    role_hierarchy:
+
+         ROLE_DEALER: ROLE_USER
+         ROLE_DISTRIBUTOR: ROLE_DEALER
+         ROLE_SELLER: ROLE_DISTRIBUTOR
+         ROLE_ADMIN: ROLE_SELLER
+
