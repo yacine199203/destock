@@ -122,7 +122,7 @@ class NewsletterController extends AbstractController
         $manager->flush();
             $this->addFlash(
                 'success',
-                 $subscribers->getName()." a bien été supprimé"
+                 "<strong>".$subscribers->getName()."</strong> a bien été supprimé"
             );
             return $this-> redirectToRoute('newsletter');
     }
