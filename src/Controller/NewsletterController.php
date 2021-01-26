@@ -71,7 +71,7 @@ class NewsletterController extends AbstractController
                         // On crée le texte avec la vue
                         ->setBody(
                             $this->renderView(
-                                'send_mail/body.html.twig', compact('mail')
+                                'send_mail/body.html.twig', compact('mail','t')
                             ),
                             'text/html'
                         );

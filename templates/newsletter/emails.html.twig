@@ -1,5 +1,6 @@
-{% for subscriber in subscribers %}
-{% if subscriber.status == true and subscriber.unsubscribe == false  %}
-{{subscriber.email}};
-{% endif %}
-{% endfor %}
+
+    {% for subscriber in subscribers %}
+    {% if subscriber.status == true and subscriber.unsubscribe == false %}
+    {{subscriber.email}};
+    {% endif %}
+    {% endfor %}

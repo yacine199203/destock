@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class=" row m-3" >
+            <div style="max-width: 500px;" class="bg-light mx-auto my-5 p-5 shadow-sm border border-secondary rounded">
+                <h2 class="my-2 " style="font-weight: 500;">Envoyer un message</h2>
+                {{ form_start(contactForm) }}
+                {{ form_widget(contactForm) }}
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" style="font-size: 16px;">Envoyer</button>
+                </div>
+                {{ form_end(contactForm) }}
+            </div>  
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+
+    <script type="text/javascript">
+        $("input[type=file]").change(function (e){$(this).next('.custom-file-label').text(e.target.files[0].name);});
+    </script>
+
+{% endblock %}

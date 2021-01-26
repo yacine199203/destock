@@ -1,72 +1,113 @@
-{% extends 'base.html.twig' %}
+<html>
 
-{% block title %}Ma commande{% endblock %}
-{% block body %}
-{% if (app.user == showCommande.user) or is_granted('ROLE_EDITOR') %}
-<div class="container">
-    <div class="row my-5">
-        <div class="col-12 text-center">
-            <h1 style="font-weight: 500;">{{ 'commande n°: ' |upper }}{{showCommande.ref}}</h1>
-        </div>
-        <div class="col-12 text-center">
-            <h3 style="font-weight: 500;">{{showCommande.user.lastName}} {{showCommande.user.firstName}}</h3>
-        </div>
-        <div class="col-12 text-center">
-            <h5 style="font-weight: 500;">{{showCommande.createdAt|date("d/m/Y")}}</h5>
-        </div>
-    </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simafe | Ma commande n°_{{showCommande.ref}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="/images/logo_icon.png" />
+    <link type="text/css" rel="stylesheet" href="/css/style.css">
 
-    <div class="row mx-2 p-2 category" style="min-width: 900px;">
-        <div class="col-12">
+</head>
 
-            <div class="row justify-content-between px-2 py-1 border-bottom mx-3 ">
-                <div class="col-6 pl-0">
-                    <h6 style="font-weight: 800;">Produit</h6>
+<body>
+    {% if (app.user == showCommande.user) or is_granted('ROLE_SELLER') %}
+
+    
+        <div class="container ">
+            <div class="row my-5 px-3">
+                <div class="col-4"> 
+                    <h2>SARL SIMAFE</h2>
+                    <h5>51, Cité Tebbal</h5>
+                    <h5>06000 Béjaia</h5>
+                    <h5>ALGERIE</h5>
                 </div>
-                <div class="col-2 pl-0">
-                    <h6 style="font-weight: 800;">Prix TTC</h6>
+                <div class="col-5">
+                    <h2>BON DE COMMANDE</h2>
+                    <span class="d-flex "><h5 class="mr-1">Numéro : </h5><h5 class="font-weight-bold">{{showCommande.ref}}</h5></span>
+                    <span class="d-flex "><h5 class="mr-1">Date : </h5><h5 class="font-weight-bold">{{showCommande.createdAt|date("d/m/Y")}}</h5></span>
                 </div>
-                <div class="col-2 pl-0">
-                    <h6 style="font-weight: 800;">Qté</h6>
+                <div class="col-3">
+                    <img class="ml-auto" src="/images/logo.png" alt="" width="200">
                 </div>
-                <div class="col-2 pl-0">
-                    <h6 style="font-weight: 800;">Montant TTC</h6>
+            </div>
+            <div class="row my-5 px-3">
+                <div class="col-4">
+                    <span class="d-flex "><h5 class="font-weight-bold">E-mail :</h5><h5 class="ml-1">infos@simafe.com </h5></span>
+                    <span class="d-flex "><h5 class="font-weight-bold">Site web :</h5><h5 class="ml-1">www.simafe.com </h5></span>
+                    <span class="d-flex "><h5 class="font-weight-bold">Capital social :</h5><h5 class="ml-1">247 400 000,00 </h5></span>
+                </div>
+                <div class="col-8">
+                    <div class="row justify-content-end px-2">
+                        <div>
+                            <span class="d-flex "><h5 class="font-weight-bold">Client :</h5><h5 class="ml-1">{{showCommande.user.id}} </h5></span>
+                        <h4>{{showCommande.fullName|upper}}</h4>
+                        <h5>12 rue mohamed hachemi bejaia </h5>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            {% for item in showCommande.carts %}
-            <div class="row justify-content-between px-2 py-2 border-bottom mx-3 ">
+            <div class="row mx-2 p-2 category" style="height: 800px;">
+                <div class="col-12">
 
-                <div class="col-6 pl-0 align-self-center">
-                    <span>{{item.product.product.category.categoryName}} </span>
-                    <span>{{item.product.product.productName}} </span>
-                    <span>{{item.product.dimension}} </span>
-                </div>
-                <div class="col-2 pl-0 align-self-center">
-                    <span>{{item.price|number_format( 2, ',', ' ')}} </span>
-                </div>
-                <div class="col-2 pl-0 align-self-center">
-                    <span>{{item.qty}}</span>
-                </div>
-                <div class="col-2 pl-0 align-self-center">
-                    <span>{{(item.price * item.qty)|number_format( 2, ',', ' ')}}</span>
-                </div>
+                    <div class="row justify-content-between px-2 py-1 border-bottom mx-3 ">
+                        <div class="col-6 pl-0">
+                            <h5 class="font-weight-bold m-0">Produit</h5>
+                        </div>
+                        <div class="col-2 pl-0">
+                            <h5 class="font-weight-bold m-0">Prix TTC</h5>
+                        </div>
+                        <div class="col-2 pl-0">
+                            <h5 class="font-weight-bold m-0">Qté</h5>
+                        </div>
+                        <div class="col-2 pl-0">
+                            <h5 class="font-weight-bold m-0">Montant TTC</h5>
+                        </div>
+                    </div>
 
+                    {% for item in showCommande.carts %}
+                    <div class="row justify-content-between px-2 py-2 border-bottom mx-3 ">
+
+                        <div class="col-6 pl-0 align-self-center">
+                            <span>{{item.product.product.category.categoryName}} </span>
+                            <span>{{item.product.product.productName}} </span>
+                            <span>{{item.product.dimension}} </span>
+                        </div>
+                        <div class="col-2 pl-0 align-self-center">
+                            <span>{{item.price|number_format( 2, ',', ' ')}} </span>
+                        </div>
+                        <div class="col-2 pl-0 align-self-center">
+                            <span>{{item.qty}}</span>
+                        </div>
+                        <div class="col-2 pl-0 align-self-center">
+                            <span>{{(item.price * item.qty)|number_format( 2, ',', ' ')}}</span>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="row mx-2 py-3">
-        <div class="col-9"></div>
-        <div class="col-3 category" style="height: 100%;">
-            <div class="row py-2 border-bottom mx-3 align-self-center">
-                <div class="mx-auto">
-                    <span style="font-weight: 800;" class="m-0 pr-2">Total :</span>
-                    <span> {{total|number_format( 2, ',', ' ')}}</span>
+            <div class="row mx-2 py-3">
+                <div class="col-8">
+                    <span>Arrété le présent document à la somme de :</span>
+                    <h5 class="my-1">{{chiffreEnLettre|upper}}</h5>
+                </div>
+                <div class="col-4 category" style="height: 100%;">
+                    <div class="row py-2 border-bottom mx-1 align-self-center">
+                        <div class="d-flex">
+                            <h5  class="font-weight-bold m-0 pr-2">Total :</h5>
+                            <h5 class="font-weight-normal m-0"> {{total|number_format( 2, ',', ' ')}}</h5>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-{% endif %}
-{% endblock %}
+  
+    {% endif %}
+
+
+</body>
+
+</html>

@@ -49,7 +49,7 @@
                             <a class="dropdown-item d-flex" href="{{path('dashbord')}}"><div style="width: 25px;"><i class="fas fa-cog"></i></div> Dashbord</a>
                             {% endif %}
                             {% if is_granted('ROLE_USER') %}
-                            <a class="dropdown-item d-flex" href="#"><div style="width: 25px;"><i class="fas fa-shopping-cart"></i></div> Commandes</a>
+                            <a class="dropdown-item d-flex" href="{{path('commande')}}"><div style="width: 25px;"><i class="fas fa-shopping-cart"></i></div> Commandes</a>
                             {% endif %}
                         </div>
                         {% endif %}

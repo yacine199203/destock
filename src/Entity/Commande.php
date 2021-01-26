@@ -57,6 +57,11 @@ class Commande
      */
     private $carts;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fullName;
+
     public function __construct()
     {
         $this->carts = new ArrayCollection();
@@ -181,6 +186,18 @@ class Commande
                 $cart->setCommande(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->fullName;
+    }
+
+    public function setFullName(string $fullName): self
+    {
+        $this->fullName = $fullName;
 
         return $this;
     }

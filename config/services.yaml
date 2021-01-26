@@ -6,6 +6,7 @@
 parameters:
     upload_directory_png: '%kernel.project_dir%/public/images'
     upload_directory_pdf: '%kernel.project_dir%/public/fiches-technique'
+    upload_directory_contact: '%kernel.project_dir%/public/contact-file'
 services:
     # default configuration for services in *this* file
     _defaults:

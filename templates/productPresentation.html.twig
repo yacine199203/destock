@@ -73,7 +73,7 @@
                         </td>
                     </tr>
 
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_DISTRIBUTOR') %}
                     <tr>
                         <td>Prix distributeur :</td>
                         <td class="font-weight-bold"><span class="pd">{{prices.price3|number_format( 2, ',', ' ')}}</span> DA
