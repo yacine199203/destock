@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Repository\ContactRepository;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ContactController extends AbstractController
@@ -44,6 +46,7 @@ class ContactController extends AbstractController
                 if($file != null)
                 {
                     $fileName= uniqid().'.'.$file->guessExtension();
+                    $cont->setPdf($fileName);
                     $file->move($this->getParameter('upload_directory_contact'),$fileName);
                     $message = (new \Swift_Message('Nouveau contact'))
                     // On attribue l'expéditeur
@@ -100,7 +103,6 @@ class ContactController extends AbstractController
                 );
                 $cont->setObject($object);
                 $cont->setName($name);
-                $cont->setPdf($fileName);
                 $manager=$this->getDoctrine()->getManager();
                 $manager->persist($cont); 
                 $manager->flush();
@@ -112,5 +114,67 @@ class ContactController extends AbstractController
         return $this->render('contact/index.html.twig',[
             'contactForm' => $form->createView(),
             ]);
+    }
+
+    /**
+     * permet de voir la liste des contact
+     * @Route("/dashbord/contacts", name="showContact")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function showCategory(ContactRepository $contactRepo): Response
+    {
+        $contact = $contactRepo->findAll();
+        return $this->render('contact/showContact.html.twig', [
+            'contact' => $contact,
+        ]);
+    }
+
+    /**
+     * permet de supprimer un message
+     * @Route("/dashbord/supprimer-message/{id} ", name="removeMessage")
+     * @IsGranted("ROLE_ADMIN")
+     * @return Response
+     */
+    public function removeMessage($id,ContactRepository $contactRepo)
+    {   
+        $removeMsg = $contactRepo->findOneById($id);
+        $file= $removeMsg->getPdf();
+        if($file!= null){
+            unlink('../public/contact-file/'.$file);
+        }
+        $manager=$this->getDoctrine()->getManager();
+        $manager->remove($removeMsg); 
+        $manager->flush();
+            $this->addFlash(
+                'success',
+                "Le message de <strong> ".$removeMsg->getName()."</strong> a bien été supprimé "
+            );
+            return $this-> redirectToRoute('showContact');
+    }
+
+    /**
+     * permet de supprimer tous les abonnés 
+     * @Route("/dashbord/supprimer-tous-les-messages ", name="removeAllMessages")
+     * @IsGranted("ROLE_ADMIN")
+     * @return Response
+     */
+    public function removeAllMessage(ContactRepository $contactRepo)
+    {  
+        $allMessages = $contactRepo->findAll();
+        $manager=$this->getDoctrine()->getManager();
+        foreach ($allMessages as $msg)
+        {
+            $file= $msg->getPdf();
+            if($file!= null){
+                unlink('../public/contact-file/'.$file);
+            }
+            $manager->remove($msg); 
+        }
+        $manager->flush();
+            $this->addFlash(
+                'success',
+                 "tous les messages ont été supprimés"
+            );
+            return $this-> redirectToRoute('showContact');
     }
 }

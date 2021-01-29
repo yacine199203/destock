@@ -1,0 +1,81 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Réalisations{% endblock %}
+
+{% block arbo %}
+<a href="{{path('home_page')}}">Accueil</a> / <span>Réalisations</span>
+{% endblock %}
+
+{% block mbody %}
+<div class="container">
+    <div class="mb-3 text-center">
+        <h1 style="font-weight: 500;">Réalisations</h1>
+    </div>
+
+    <div class="row justify-content-end mx-2">
+        <a href="{{ path('addRealisation')}}">
+            <button class="btn btn-primary my-2" type="button">
+                Ajouter
+            </button>
+        </a>
+    </div>
+   <div class="row p-2">
+        <div class="col-12">
+            <div class="rounded shadow-sm border col-12 ">
+                {% for job in header.jobs %}
+                <div class="toto">
+                    <div class="tete px-1 row justify-content-between border">
+                        <a href="{{ path('categoryproduct',{'slug': job.slug}) }}" class="p-2 ">
+                            <strong>{{job.jobName}}</strong>
+                        </a>
+                        <a href="#" class="p-2 slid"><i class="fas fa-plus text-primary"></i></a>
+                    </div>
+                    <div class="corp">
+                        <div class="p-2  d-flex flex-column">
+                            {% for realisation in job.realisations %}
+                            <div>
+                                <div class="row justify-content-between px-4 border-bottom mx-3 ">
+                                    <span class="my-auto">{{ realisation.customer }}</span>
+                                    <div>
+                                        <a href="{{path('editRealisation',{'id':realisation.id})}}">
+                                            <button class="btn pr-0 btnmdsup"><i class="fas fa-edit"></i></button>
+                                        </a>
+                                        <a href="{{path('removeRealisation',{'id':realisation.id})}}"
+                                            onclick="return confirm ('voulez vous vraiment supprimer {{ realisation.customer }} ?')">
+                                            <button class="btn pr-0 btnmdsup delete"><i
+                                                    class="far fa-trash-alt"></i></button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script>
+    $('.corp').hide();
+
+    $('a.slid').each(function(l){
+        $(this).on('click', function (e) {
+            e.preventDefault();
+            if($(this).children('i').hasClass('fa-plus')){
+                $(this).parent().siblings('.corp').show('200');
+                $(this).children('i').removeClass('fa-plus');
+                $(this).children('i').addClass('fa-minus');
+            }else{
+                $(this).parent().siblings('.corp').hide('200');
+                $(this).children('i').removeClass('fa-minus');
+                $(this).children('i').addClass('fa-plus');   
+            }
+        });
+    })
+    
+</script>
+{% endblock %}

@@ -197,6 +197,16 @@ class ProductController extends AbstractController
             {
                 foreach($fileImage as $image)
                 {
+                    if($image->guessExtension()!='png')
+                        {
+                            $editProdForm->get('image')->addError(new FormError("vos images doivent être en format png"));
+                            $this->addFlash(
+                                'danger',
+                                "Le produit n'a pas été modifié, la galerie photo contient un fichier qui n'est pas au format png"
+                            );
+                            return $this-> redirectToRoute('product');
+
+                        }
                     // On génère un nouveau nom de fichier
                     $fileNameImage = md5(uniqid()).'.'.$image->guessExtension();
                     

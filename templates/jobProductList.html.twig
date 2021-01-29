@@ -1,0 +1,45 @@
+{% extends "/modal.html.twig" %}
+{% block title %}{{jobs.jobName|capitalize }}{% endblock %}
+
+{% block arbo %}
+
+<div>
+    <a href="{{ path('home_page') }}">Accueil</a> /
+    {{jobs.jobName|capitalize }}
+</div>
+
+{% endblock %}
+{% block mbody %}
+<div class="mb-5 text-center">
+    <h1> {{jobs.jobName}} </h1>
+</div>
+{% if jobs.jobProducts|length == 1 %}
+        <div style="font-size: 15px;"> {{jobs.jobProducts|length}} produit</div>
+    {% else %}
+        <div style="font-size: 15px;"> {{jobs.jobProducts|length}} produits</div>
+    {% endif %}
+
+    <div class="row">
+        {% for prod in products %}
+        {% for jp in prod.jobProducts %} 
+        {% if prod.id == jp.product.id and jobs.id == jp.job.id %}
+            <div class="col-md-4 p-3">
+                <div class="border shadow-sm rounded p-2 product text-center">
+                    <a href="{{path('productPresentation',{'slug': jp.product.category.slug,'productSlug': jp.product.slug})}}">
+                    <img style="width: 100%" src="/images/{{jp.product.png}}" alt="{{jp.product.png}}">
+                    </a>
+                    <a href="{{path('categoryproduct',{'slug': jp.product.category.slug }) }}">
+                        <h6 class="mb-1" style="font-weight: 700">{{jp.product.category.categoryName}}</h6>
+                    </a>
+                    <div><a href="{{path('productPresentation',{'slug': jp.product.category.slug,'productSlug': jp.product.slug})}}">{{ jp.product.productName }}</a></div>
+                    <a href="{{path('productPresentation',{'slug': jp.product.category.slug,'productSlug': jp.product.slug})}}">
+                        <button class="btn btn-primary py-1 my-2">En savoir plus</button>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+        
+    </div>
+{% endblock %}

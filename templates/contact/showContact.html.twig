@@ -1,0 +1,40 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Contacts{% endblock %}
+
+{% block arbo %}
+<a href="{{path('home_page')}}">Accueil</a> / <span>Contacts</span>
+{% endblock %}
+
+{% block mbody %}
+<div class="container">
+    <div class="mb-3 text-center">
+        <h1 style="font-weight: 500;">Contacts</h1>
+    </div>
+
+     <div class="row justify-content-end mx-2">
+        <a href="{{ path('removeAllMessages')}}">
+            <button class="btn btn-danger my-2" type="button" onclick="return confirm ('voulez vous vraiment supprimer tous les messages ?')">
+                vider
+            </button>
+        </a>
+    </div>
+
+    <div class="row mx-2 p-2 category">
+        <div class="col-12">
+            {% for cat in contact %}
+            <div class="row justify-content-between px-4 border-bottom mx-3 ">
+                <span class="my-auto">{{cat.name}} <span class="font-weight-bold">{{cat.object}}</span> {% if cat.pdf != null %}<i class="fas fa-paperclip"></i>{% endif %}</span>
+                <div>
+                   
+                    <a href="{{path('removeMessage',{'id':cat.id})}}"
+                        onclick="return confirm ('voulez vous vraiment supprimer ce message ?')">
+                        <button class="btn pr-0 btnmdsup delete"><i class="far fa-trash-alt"></i></button>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

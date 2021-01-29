@@ -48,9 +48,15 @@ class Job
      */
     private $jobProducts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Realisation::class, mappedBy="job", orphanRemoval=true)
+     */
+    private $realisations;
+
     public function __construct()
     {
         $this->jobProducts = new ArrayCollection();
+        $this->realisations = new ArrayCollection();
     }
 
     /** 
@@ -130,6 +136,36 @@ class Job
             // set the owning side to null (unless already changed)
             if ($jobProduct->getJob() === $this) {
                 $jobProduct->setJob(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Realisation[]
+     */
+    public function getRealisations(): Collection
+    {
+        return $this->realisations;
+    }
+
+    public function addRealisation(Realisation $realisation): self
+    {
+        if (!$this->realisations->contains($realisation)) {
+            $this->realisations[] = $realisation;
+            $realisation->setJob($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRealisation(Realisation $realisation): self
+    {
+        if ($this->realisations->removeElement($realisation)) {
+            // set the owning side to null (unless already changed)
+            if ($realisation->getJob() === $this) {
+                $realisation->setJob(null);
             }
         }
 

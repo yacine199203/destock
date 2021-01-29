@@ -41,7 +41,7 @@
     <div class="row justify-content-center">
         {% for jb in header.jobs %}
         <div class="col-10 col-md-4 ">
-            <a href="#">
+            <a href="{{ path('jobProduct',{'metier': jb.slug}) }}">
                 <div class="single-works">
                     <img src="/images/{{jb.image}}">
                     <div class="overlay-text">
@@ -107,7 +107,7 @@
                 <a href="#">
                     <button type="button" class="btn btn-outline-light m-3">Nos réalisations</button>
                 </a>
-                <a href="#">
+                <a href="{{path('contact')}}">
                     <button type="button" class="btn btn-outline-light m-3">Nous contacter</button>
                 </a>
             </div>

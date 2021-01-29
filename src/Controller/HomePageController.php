@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Newsletter;
 use App\Form\NewsletterType;
+use App\Repository\JobRepository;
 use App\Repository\PriceRepository;
 use App\Repository\SliderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\JobProductRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -108,6 +110,24 @@ class HomePageController extends AbstractController
         'data'=>  $t,'prod'=> $product->getId()],200);
     }
 
+    /**
+     * permet de voir la liste des produits dans un métier
+     * @Route("/metier/{metier}", name="jobProduct")
+     * 
+     * @return Response
+     */
+    public function showJobProduct($metier,JobRepository $jobRepo,JobProductRepository $jpRepo,ProductRepository $productRepo)
+    {
+        $jobs = $jobRepo->findOneBySlug($metier);
+        $jps = $jpRepo->findAll();
+        $products =$productRepo->findAll();
+        return $this->render('jobProductList.html.twig', [
+            'jobs'=> $jobs,
+            'jps'=> $jps,
+            'products'=> $products,
+            
+        ]);
+    }
 
     
     

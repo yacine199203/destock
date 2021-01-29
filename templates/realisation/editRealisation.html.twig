@@ -1,0 +1,57 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Modifier une réalisation{% endblock %}
+
+{% block arbo %}
+<a href="{{path('home_page')}}">Accueil</a> / <a href="{{path('product')}}">Produits</a> / <span>Modifier une
+    réalisation</span>
+{% endblock %}
+
+{% block mbody %}
+<div class="p-5 border rounded bg-light">
+    <div class="mb-3 text-center">
+        <h1 style="font-weight: 500;">Modifier une réalisation</h1>
+    </div>
+
+    {{ form_start(editRealForm) }}
+    {{ form_row(editRealForm.customer) }}
+    {{ form_row(editRealForm.job) }}
+    {{ form_row(editRealForm.image) }}
+    {% for image in editRealisation.realisationImages %}
+    <div class="row justify-content-between px-4 border-bottom mx-3 py-2">
+        <img src="/images/{{image.image}}" width="150">
+        <a href="{{path('removeRi',{'id':image.id})}}" class="delete delete1">
+            <i class="far fa-trash-alt"></i>
+        </a>
+    </div>
+    {% endfor %}
+    <div class="modal-footer px-0">
+        <button type="submit" class="btn btn-primary" style="font-size: 16px;">Modifier</button>
+    </div>
+    {{ form_end(editRealForm) }}
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+<script type="text/javascript">
+    $("input[type=file]").change(function (e) { $(this).next('.custom-file-label').text(e.target.files[0].name); });
+</script>
+
+<script>
+    $('.delete1').each(function(){
+        $(this).on('click',function(e){
+            if(confirm("Voulez-vous supprimer cette image ?")){
+            e.preventDefault();
+            url= $(this).attr("href");
+            $.getJSON(url, function (response) {
+                
+            });
+            $(this).parent().remove();
+        }
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Ajouter une réalisation{% endblock %}
+
+{% block arbo %}
+<a href="{{path('home_page')}}">Accueil</a> / <a href="{{path('product')}}">Produits</a> / <span>Ajouter une
+    réalisation</span>
+{% endblock %}
+
+{% block mbody %}
+<div class="p-5 border rounded bg-light">
+    <div class="mb-3 text-center">
+        <h1 style="font-weight: 500;">Ajouter une réalisation</h1>
+    </div>
+
+    {{ form_start(addRealForm) }}
+    {{ form_widget(addRealForm) }}
+    <div class="modal-footer px-0">
+        <button type="submit" class="btn btn-primary" style="font-size: 16px;">Enregistrer</button>
+    </div>
+    {{ form_end(addRealForm) }}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+
+<script type="text/javascript">
+    $("input[type=file]").change(function (e) { $(this).next('.custom-file-label').text(e.target.files[0].name); });
+</script>
+
+{% endblock %}
