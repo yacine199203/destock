@@ -187,7 +187,7 @@
         } else {
              price = t4
         }
-        $.getJSON('/commande/panier/ajouter/'+t0+'/'+t1+'/'+price.replace(' ',''), function (response) {
+        $.getJSON('/commande/panier/ajouter/'+t0+'/'+t1+'/'+price.replace(/ /g,''), function (response) {
             $('.cart').text(response.data);
             $('.cart').addClass('bg-danger');
             console.log(+t0+'/'+t1+'/'+price.replace(' ',''))

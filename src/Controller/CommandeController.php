@@ -314,7 +314,7 @@ return $this->int2str((int)($a/1000000)).' '.$this->int2str(1000000).' '.$this->
             $manager->flush();
             $this->addFlash(
                 'success',
-                "La commande ".$removeCommande->getRef()." a bien été supprimée "
+                "La commande <strong>".$removeCommande->getRef()."</strong> a bien été supprimée "
             );
         }
         return $this-> redirectToRoute('commande');         

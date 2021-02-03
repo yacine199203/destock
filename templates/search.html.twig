@@ -1,0 +1,36 @@
+{% extends "/modal.html.twig" %}
+
+{% block title %}Recherche{% endblock %}
+
+{% block arbo %}
+<div>
+    Votre recherche pour "<strong>{{search}}</strong>"
+</div>
+{% endblock %}
+{% block mbody %}
+{% if result == null %}
+<center><h4>Aucun résultat pour : <span class="font-weight-bold">{{'"'}}{{search}}{{'"'}}</span></h4></center>
+{% else %}
+<span>total produits : {{result|length}}</span>
+<div class="row">
+{% for product in result  %}
+    <div class="col-md-4 p-3 col-6">
+        <div class="border shadow-sm rounded px-2 py-4 product text-center mx-auto">
+            <a href="{{path('productPresentation',{'slug': product.category.slug,'productSlug': product.slug})}}" class="py-1">
+                <div class="w-100 p-4">
+                    <img class="w-100" src="/images/{{product.png}}" alt="{{product.productName}}">
+                </div>
+            </a>
+            <h6 class="mb-1" style="font-weight: 700">{{product.category.categoryName}}</h6>
+            <div>
+                <a href="{{path('productPresentation',{'slug': product.category.slug,'productSlug': product.slug})}}">{{ product.productName }}</a>
+            </div>
+            <a href="{{path('productPresentation',{'slug': product.category.slug,'productSlug': product.slug})}}">
+                <button class="btn btn-primary py-1 my-2">En savoir plus</button>
+            </a>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endif %}
+{% endblock %}

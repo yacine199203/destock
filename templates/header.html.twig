@@ -25,8 +25,8 @@
         <nav class="navbar navbar-expand-lg navbar-light px-0">
 
             <div class="border-bottom border-dark d-flex ">
-                <a class="nav-link p-1" href="#"><i class="fas fa-search"></i></a>
-                <input type="search" name="search" id="search-bar" placeholder="Recherche">
+                <a class="nav-link p-1 search" href="#" type="submit"><i class="fas fa-search"></i></a>
+                <input class="result" type="search" name="search" id="search-bar" placeholder="Recherche">
             </div>
             
             <button class=" ml-auto navbar-toggler" type="button" data-toggle="collapse"
@@ -75,7 +75,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {% for job in header.jobs %}
-                            <a class="dropdown-item" href=" # ">Agencements pour {{job.jobName|upper}}</a>
+                            <a class="dropdown-item" href=" {{path('realisations',{'slug': job.slug})}} ">Agencements pour {{job.jobName|upper}}</a>
                             {% endfor %}
                         </div>
                     </li>
@@ -91,3 +91,16 @@
         </nav>
     </div>
 </div>
+
+ <script>
+     $('.search').click(function(e){
+         search=$('.result').val();
+         if(search == ""){
+             e.preventDefault();
+         }
+         url="/recherche-'"+ search +"'"; 
+         $('.search').attr('href', url)
+     })
+</script>
+    
+ 

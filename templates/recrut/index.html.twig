@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recrutement
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row w-100 my-5 justify-content-center">
+			<div class="col-12 text-center">
+				<img class="m-2" src="/images/logo.png">
+			</div>
+			<div class="col-12 text-center">
+				<h4>Votre partenaire pour la qualité !</h4>
+			</div>
+			<div class="col-12 text-center">
+				<h1 class="font-weight-bold my-3 text-primary">Espace recrutement</h1>
+			</div>
+			<div class="col-12 text-center">
+				<h3 class=" my-5 text-dark">Envie de partager une aventure unique ?<br>
+					Nous recrutons nos futurs talents,<br>
+					<strong>rejoignez-nous</strong>
+				</h3>
+			</div>
+		</div>
+		<div class="row  my-5 justify-content-center">
+			<div class="col-12 text-center">
+				<h2>Découvrez toutes nos offres :</h2>
+			</div>
+			{% if recruitement == null %}
+				<h5>Aucun poste disponible pour l'instant</h5>
+			{% endif %}
+		</div>
+			{% for rec in recruitement %}
+				<div class="col-md-4 p-2">
+					<a href="#">
+						<div class="p-5 text-center color" style="height: 200px; color:white">
+							<h2>{{rec.poste|capitalize}}</h2>
+							<h5 class="m-0">{{rec.type}}</h5>
+							<h5>{{rec.city|capitalize}}</h5>
+						</div>
+					</a>
+				</div>
+			{% endfor %}
+		</div>
+		<div class="row my-5 mx-2">
+		<div class="col-12 text-center">
+			<h2>Pour envoyer une candidature spontanée</h2>
+		</div>
+		<div class="col-12 text-center">
+			<h5>Vous ne trouvez pas d’annonces qui correspondent à votre profil ?<br>
+				Partagez-nous vos coordonnées (Nom* & Prénom*) et votre CV* par e-mail à <strong>infos@simafe.com</strong>.</h5>
+		</div>
+		</div>
+	</div>
+
+{% endblock %}
+{% block javascripts %}
+	<script>
+		var minNumber = 1; // le minimum
+		var maxNumber = 100; // le maximum
+		$('.color').each(function () {
+		$(this).css("background-color", "rgb(" + 
+		Math.floor(Math.random() * (maxNumber + 1) + minNumber) + "," + 
+		Math.floor(Math.random() * (maxNumber + 1) + minNumber) + "," + 
+		Math.floor(Math.random() * (maxNumber + 1) + minNumber) + ")");
+		})
+	</script>
+{% endblock %}

@@ -61,7 +61,7 @@ class ContactController extends AbstractController
                         'text/html'
                     )
                     
-                    ->attach(\Swift_Attachment::fromPath($this->getParameter('upload_directory_png').'/'.$fileName))
+                    ->attach(\Swift_Attachment::fromPath($this->getParameter('upload_directory_contact').'/'.$fileName))
                 ;
                 }else{
                     $message = (new \Swift_Message('Nouveau contact'))

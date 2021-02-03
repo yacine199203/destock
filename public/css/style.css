@@ -55,7 +55,6 @@ a:hover{
 .category{
     border: 1px solid rgb(65, 65, 66);
     border-radius: 10px;
-    overflow: auto;
 }
 
 .btnmdsup {

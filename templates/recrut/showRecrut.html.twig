@@ -1,0 +1,50 @@
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Recrutements{% endblock %}
+
+{% block arbo %}
+<a href="{{path('home_page')}}">Accueil</a> / <span>recrutements</span>
+{% endblock %}
+
+{% block mbody %}
+
+    <div class="container">
+
+        <div class="row justify-content-center my-5">
+            <h1 style="font-weight: 500;">{{ 'Recrutements'}}</h1>
+        </div>
+
+        <div class="row justify-content-end mx-2">
+            <a href="{{ path('addRec')}}">
+                <button class="btn btn-primary my-2"type="button">
+                    Ajouter
+            </button>
+            </a>
+        </div>
+        <div class="row mx-2 p-2 category">
+            {% for rec in recruitement %}
+            <div class="col-12">
+            
+                <div class="row justify-content-between px-4 border-bottom mx-3 ">
+                    <span class="my-auto">{{rec.poste}}</span>
+                    <span class="my-auto">{{rec.city}}</span>
+                    <span>
+                        <a href="{{ path('editRec',{'id': rec.id}) }}">
+                            <button class="btn pr-0 btnmdsup"><i class="fas fa-edit"></i></button>
+                        </a>
+                        <a href="{{ path('removeRec',{'id': rec.id}) }}"
+                           onclick="return confirm ('voulez vous vraiment supprimer {{rec.poste}} ?')">
+                            <button class="btn pr-0 btnmdsup delete"><i class="far fa-trash-alt"></i></button>
+                        </a>
+                    </span>
+                        
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+
+    </div>
+    
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "/modal.html.twig" %}
+
+{% block title %}
+	Nos réalisations pour
+	{{realisation.jobName}}
+{% endblock %}
+
+{% block arbo %}
+
+	<div>
+		<a href="{{ path('home_page') }}">Accueil</a>
+		/ Nos réalisations pour
+		{{realisation.jobName}}
+	</div>
+
+{% endblock %}
+{% block mbody %}
+	<div class="mb-5 text-center">
+		<h1>{{realisation.jobName}}</h1>
+	</div>
+	{% for r in realisation.getRealisations %}
+		<div class="row border shadow-sm bg-light rounded py-3 my-3">
+			<div class="col-12 text-center">
+				<h3>{{r.customer|upper}}</h3>
+			</div>
+			<div class="col-12 text-center">
+				<h6>{{r.adresse|capitalize}}</h6>
+			</div>
+			<div style="width:100%" id="carouselExampleIndicators_{{r.id}}" class="px-2 mx-auto carousel slide mt-2 shadow-sm rounded border" data-ride="carousel">
+				<ol class="carousel-indicators">
+					{% for img in r.realisationImages %}
+						<li data-target="#carouselExampleIndicators_{{r.id}}" data-slide-to="{{loop.index0}}" {% if loop.first %} class="active" {% endif %}></li>
+					{% endfor %}
+				</ol>
+				<div class="carousel-inner">
+					{% for img in r.realisationImages %}
+						<div class="carousel-item {% if loop.first %} active {% endif %} ">
+							<img style="max-width:450" src="/images/{{img.image}}" class="d-block w-100" alt="{{img.image}}">
+						</div>
+					{% endfor %}
+				</div>
+				<a class="carousel-control-prev" href="#carouselExampleIndicators_{{r.id}}" role="button" data-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="carousel-control-next" href="#carouselExampleIndicators_{{r.id}}" role="button" data-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>
+		</div>
+	{% endfor %}
+{% endblock %}
+{% block javascripts %}
+	<script>
+		$('.carousel').carousel({
+      interval: 000
+    })
+	</script>
+{% endblock %}

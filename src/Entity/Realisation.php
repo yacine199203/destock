@@ -42,6 +42,11 @@ class Realisation
      */
     private $slug;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adresse;
+
     public function __construct()
     {
         $this->realisationImages = new ArrayCollection();
@@ -126,6 +131,18 @@ class Realisation
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(string $adresse): self
+    {
+        $this->adresse = $adresse;
 
         return $this;
     }

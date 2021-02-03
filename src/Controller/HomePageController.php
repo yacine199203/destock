@@ -129,6 +129,38 @@ class HomePageController extends AbstractController
         ]);
     }
 
+    /**
+     * permet de voir le résultat d'une recherche
+     * @Route("/recherche-'{search}'", name="searchResult")
+     * 
+     * @return Response
+     */
+    public function searchResult($search,ProductRepository $productRepo)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $result = $manager->createQuery('SELECT p FROM App\Entity\Product p WHERE p.productName LIKE \'%'.$search.'%\'')->getResult();
+        return $this->render('/search.html.twig', [
+            'result'=> $result,
+            'search'=> $search,
+            
+        ]);
+    }
+
+    /**
+     * permet de voir la réalisations
+     * @Route("/Nos-realisations/{slug}", name="realisations")
+     * 
+     * @return Response
+     */
+    public function realisations($slug,JobRepository $jobRepo)
+    {
+        $realisation = $jobRepo->findOneBySlug($slug);
+        
+        return $this->render('/nosRealisations.html.twig', [
+            'realisation'=> $realisation, 
+        ]);
+    }
+
     
     
 }

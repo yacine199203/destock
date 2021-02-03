@@ -22,6 +22,12 @@ class RealisationType extends AbstractType
                     'placeholder'=>'Ex: Nom client'    
                 ]
             ])
+            ->add('adresse',TextType::class,[
+                'label'=>'Client :',
+                'attr'=>[
+                    'placeholder'=>'Adresse du client'    
+                ]
+            ])
             ->add('job',EntityType::class,[
                 'label'=>'Métier :',
                 'class'=>'App\Entity\Job',

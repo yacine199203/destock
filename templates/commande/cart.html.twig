@@ -99,7 +99,7 @@
         });
 
         $('.price-val').each(function () {
-            price[s] = $(this).text().replace(' ', '').replace(',00', '');
+            price[s] = $(this).text().replace(/ /g,'').replace(',00', '');
             s++;
         });
 

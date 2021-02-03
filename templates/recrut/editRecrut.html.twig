@@ -1,0 +1,83 @@
+  
+{% extends 'dashbordBase.html.twig' %}
+
+{% block title %}Modifier une offre d'emploi{% endblock %}
+
+{% form_theme editRecForm _self %}
+
+{% block arbo %}
+<a href="{{path('home_page')}}">Accueil</a> /
+<a href="{{path('home_page')}}">Recrutements</a> /<span>Modifier une offre d'emploi</span>
+{% endblock %}
+
+{% block mbody %}
+<div class="p-5 border rounded bg-light">
+    <div class="mb-3 text-center">
+        <h1 style="font-weight: 500;">Modifier une offre d'emploi</h1>
+    </div>
+
+    {{ form_start(editRecForm) }}
+    {{ form_widget(editRecForm) }}
+    <div class="modal-footer px-0">
+        <button type="submit" class="btn btn-primary" style="font-size: 16px;">Modifier</button>
+    </div>
+    {{ form_end(editRecForm) }}
+</div>
+{% endblock %}
+
+
+{% block _recrut_profilRecruts_entry_row %}
+{{ form_widget(form) }}
+{% endblock %}
+
+{% block _recrut_profilRecruts_entry_widget %}
+    <div class="form-group" id="block_{{ id }}">
+        <div class="row">
+            <div class="col-md-11 pr-0">
+                {{ form_widget (form.conditions)}}
+            </div>
+            <div class="col-md-1 p-0">
+                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn pr-0 btnmdsup delete" style="font-size: 20px;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+ 
+{% block _recrut_profilRecruts_widget %}
+    {{ form_widget(form) }}
+    <input type="hidden" id="widgets-counter" value="0">
+    <div class="form-group" >
+        <button id="add-cond" type="button" class="btn pr-0 btnmdsup" style="font-size: 20px;">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+{% endblock %}
+{% block javascripts %}
+<script>
+  
+    $('#add-cond').click(function(){
+        // récupèrer le numéro du future champ à ajouter
+        const index = +$('#widgets-counter').val();
+        // récupèrer le prototype html généré par symfony voir inspecter code
+        const tmpl = $('#recrut_profilRecruts').data('prototype').replace(/__name__/g,index);
+        //injecter le code 
+        $('#recrut_profilRecruts').append(tmpl);
+        $('#widgets-counter').val(index+1);
+        handleDeleteButtons();
+    });
+    function handleDeleteButtons() {
+        $('button[data-action="delete"]').click(function(){
+            const target = this.dataset.target;
+            $(target).remove();
+        });
+    }
+    function updatecounter() {
+        const count = +$('#recrut_profilRecruts div.form-group').length;
+        $('#widgets-counter').val(count);
+    }
+    updatecounter();
+    handleDeleteButtons();
+</script>
+{% endblock %}
