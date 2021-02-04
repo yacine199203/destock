@@ -124,7 +124,6 @@ class RecrutController extends AbstractController
     /**
      * permet de supprimer une offre d'emploi
      * @Route("/recrutement/{id} ", name="cond")
-     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function conditions($id,ProfilRecrutRepository $recruitementRepo)
