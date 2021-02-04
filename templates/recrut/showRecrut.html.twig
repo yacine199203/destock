@@ -26,8 +26,7 @@
             <div class="col-12">
             
                 <div class="row justify-content-between px-4 border-bottom mx-3 ">
-                    <span>{{rec.poste}}</span>
-                    <span>{{rec.city}}</span>
+                    <span><strong>{{rec.poste}}</strong> / {{rec.city}}</span>
                     <span>
                         <a href="{{ path('editRec',{'id': rec.id}) }}">
                             <button class="btn pr-0 btnmdsup"><i class="fas fa-edit"></i></button>
