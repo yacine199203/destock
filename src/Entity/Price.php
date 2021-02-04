@@ -6,6 +6,7 @@ use App\Repository\PriceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PriceRepository::class)
@@ -27,21 +28,25 @@ class Price
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Ce champ est vide")
      */
     private $dimension;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank(message="Ce champ est vide")
      */
     private $price1;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank(message="Ce champ est vide")
      */
     private $price2;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank(message="Ce champ est vide")
      */
     private $price3;
 

@@ -33,15 +33,19 @@
 		<div class="row  my-3">
 			{% for rec in recruitement %}
 				<div class="col-md-4 p-2">
-					<a href="#">
+					<a href="{{path('cond',{'id':rec.id})}}" class="poste">
 						<div class="p-5 text-center color" style="height: 200px; color:white">
 							<h2>{{rec.poste|capitalize}}</h2>
-							<h5 class="m-0">{{rec.type}}</h5>
-							<h5>{{rec.city|capitalize}}</h5>
+							<h5 class="m-0">{{rec.type}} , {{rec.city|capitalize}}</h5>
 						</div>
 					</a>
 				</div>
 			{% endfor %}
+		</div>
+		<div class="row  my-3 conditions">
+			<h3>Profil recherché :</h3>
+			<ul class="mx-5 p-5 bg-light border rounded w-100 liste">
+			</ul>
 		</div>
 		<div class="row my-5 mx-2">
 		<div class="col-12 text-center">
@@ -65,5 +69,21 @@
 		Math.floor(Math.random() * (maxNumber + 1) + minNumber) + "," + 
 		Math.floor(Math.random() * (maxNumber + 1) + minNumber) + ")");
 		})
+
+		$('.conditions').hide();
+		$('.poste').each(function() {
+			$(this).click(function (e) {
+				e.preventDefault();
+				url =$(this).attr('href');
+				$.getJSON(url, function (response) {
+					$('.conditions').show('slow')
+					$('.liste').text('');
+					for (let i = 0; i < response.data.length; i++) {
+						$('.liste').append('<li>'+response.data[i]+'</li>')
+					}
+				})
+			})
+		})
+
 	</script>
 {% endblock %}

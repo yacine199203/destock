@@ -68,6 +68,7 @@ class Product
 
     /**
      * @ORM\OneToMany(targetEntity=Price::class, mappedBy="product", orphanRemoval=true)
+     * @Assert\Valid
      */
     private $prices;
 

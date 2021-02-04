@@ -168,7 +168,7 @@ class RealisationController extends AbstractController
      * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
-    public function removeProduct($id,RealisationRepository $realisationtRepo)
+    public function removeRealisation($id,RealisationRepository $realisationtRepo)
     {   
         $removeRealisation = $realisationtRepo->findOneById($id);
         foreach($removeRealisation->getRealisationImages() as $rp)

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Recrut;
 use App\Form\RecrutType;
 use App\Repository\RecrutRepository;
+use App\Repository\ProfilRecrutRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -118,5 +119,23 @@ class RecrutController extends AbstractController
                  "L'offre d'emploi <strong>".$removeRec->getPoste()."</strong> a bien été supprimée"
             );
             return $this-> redirectToRoute('showRecrut');
+    }
+
+    /**
+     * permet de supprimer une offre d'emploi
+     * @Route("/recrutement/{id} ", name="cond")
+     * @IsGranted("ROLE_ADMIN")
+     * @return Response
+     */
+    public function conditions($id,ProfilRecrutRepository $recruitementRepo)
+    {   
+        $conditions = $recruitementRepo->findByPoste($id);
+        $cond=[];
+        foreach($conditions as $c)
+        {
+            $cond []=$c->getConditions();
+        }
+        return $this->json(['code'=> 200, 'message'=>'conditions',
+        'data'=>$cond],200);
     }
 }

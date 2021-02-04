@@ -132,6 +132,14 @@ class JobController extends AbstractController
         if($removeJob->getImage() != null){
             unlink('../public/images/'.$file);
         }
+        foreach($removeJob->getRealisations() as $realisations)
+        {
+            foreach($realisations->getRealisationImages() as $realisation)
+            {
+                $file= $realisation->getImage();
+                unlink('../public/images/'.$file);
+            }
+        }
         $manager=$this->getDoctrine()->getManager();
         $manager->remove($removeJob); 
         $manager->flush();

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProfilRecrutRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProfilRecrutRepository::class)
@@ -24,6 +25,7 @@ class ProfilRecrut
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est vide")
      */
     private $conditions;
 

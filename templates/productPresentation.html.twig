@@ -50,14 +50,15 @@
             </a>
         </div>
     </div>
-    {% if app.user and prices != null %}
     <div class="col-md-5">
+        {% if app.user %}
         <div class=" mx-1 my-2 product-title ">
             <div class="  pl-2 py-3 ml-5 ">
                 <h5 class="font-weight-bold text-primary">{{category.categoryName|upper}}</h5>
                 <h6>{{product.productName|upper}}</h6>
             </div>
         </div>
+        {% if prices != null %}
         <div class="mx-1 my-3">
             <table class="table table-light">
 
@@ -100,13 +101,14 @@
         </div>
     </div>
     {% endif %}
+    {% endif %}
 </div>
-<div class="row my-5">
+<div class="row my-5 w-100">
     <div class="col-12 text-center">
         <h3>CARACTÉRISTIQUES :</h3>
     </div>
     <div class="col-12">
-        <div class="border bg-light rounded my-4">
+        <div class="border bg-light rounded my-4 w-100">
             <ul class="py-3">
                 {% for chara in product.characteristics %}
                 <li class="my-2 ml-3">

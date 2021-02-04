@@ -227,46 +227,52 @@ class ProductController extends AbstractController
 
             $r= new JobProduct();
             $t1=$editProdForm->get('jobProducts')->getData();
-            $error= false;
-            foreach($editProduct->getJobProducts()as $ejp)
+            if($t1==null)
             {
-                $t2=$ejp->getJob();        
-                if($t1 == $t2)
+                $editProdForm->get('jobProducts')->addError(new FormError("ajoutez au moins un métier"));
+            }else{
+                $error= false;
+                foreach($editProduct->getJobProducts()as $ejp)
                 {
-                    $error= true;
-                    break;
+                    $t2=$ejp->getJob();        
+                    if($t1 == $t2)
+                    {
+                        $error= true;
+                        break;
+                    }else
+                    {
+                        $error=false ;
+                    }
+                }
+                if( $error==true){
+                    $editProdForm->get('jobProducts')->addError(new FormError("ce produit appartient déja à ce métier"));
                 }else
                 {
-                    $error=false ;
+                    $r->setJob($editProdForm->get('jobProducts')->getData());
+                    $editProduct->addJobProduct($r);
                 }
-            }
-            if( $error==true){
-                $editProdForm->get('jobProducts')->addError(new FormError("ce produit appartient déja à ce métier"));
-            }else
-            {
-                $r->setJob($editProdForm->get('jobProducts')->getData());
-                $editProduct->addJobProduct($r);
-            }
 
-            foreach ($editProduct->getPrices() as $price)
-            {
-                $price->setProduct($editProduct);
-                $manager->persist($price);
-            }
+                foreach ($editProduct->getPrices() as $price)
+                {
+                    $price->setProduct($editProduct);
+                    $manager->persist($price);
+                }
 
-            foreach ($editProduct->getCharacteristics() as $chara)
-            {
-                $chara->setProduct($editProduct);
-                $manager->persist($chara);
-            }
+                foreach ($editProduct->getCharacteristics() as $chara)
+                {
+                    $chara->setProduct($editProduct);
+                    $manager->persist($chara);
+                }
 
-            $manager->persist($editProduct); 
-            $manager->flush();
-            $this->addFlash(
-                'success',
-                "Le produit <strong>".$editProduct->getProductName()."</strong> a bien été modifié "
-            );
-            return $this-> redirectToRoute('product');
+                $manager->persist($editProduct); 
+                $manager->flush();
+                $this->addFlash(
+                    'success',
+                    "Le produit <strong>".$editProduct->getProductName()."</strong> a bien été modifié "
+                );
+                return $this-> redirectToRoute('product');
+                }
+            
         }
         return $this->render('product/editProduct.html.twig', [
             'editProdForm'=> $editProdForm->createView(),

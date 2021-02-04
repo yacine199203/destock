@@ -112,19 +112,24 @@ class HomePageController extends AbstractController
 
     /**
      * permet de voir la liste des produits dans un métier
-     * @Route("/metier/{metier}", name="jobProduct")
+     * @Route("/metier/{slug}", name="jobProduct")
      * 
      * @return Response
      */
-    public function showJobProduct($metier,JobRepository $jobRepo,JobProductRepository $jpRepo,ProductRepository $productRepo)
+    public function showJobProduct($slug,JobRepository $jobRepo,JobProductRepository $jpRepo,ProductRepository $productRepo,Request $request, PaginatorInterface $paginator)
     {
-        $jobs = $jobRepo->findOneBySlug($metier);
-        $jps = $jpRepo->findAll();
+        $jobs = $jobRepo->findOneBySlug($slug);
+        $jps = $jpRepo->findByJob($jobs->getId());
         $products =$productRepo->findAll();
+        $data = $paginator->paginate(
+            $products,$request->query->getInt('page',1),
+            6
+        );
         return $this->render('jobProductList.html.twig', [
             'jobs'=> $jobs,
             'jps'=> $jps,
             'products'=> $products,
+            'data'=> $data,
             
         ]);
     }

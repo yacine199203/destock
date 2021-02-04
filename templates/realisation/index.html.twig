@@ -12,6 +12,11 @@
         <h1 style="font-weight: 500;">Réalisations</h1>
     </div>
 
+    {% if header.jobs is empty %}
+    <div class="row justify-content-center my-5">
+        <h2 class="mx-auto">Vous devez ajouter au moins un métier</h2>
+    </div>
+    {% else %}
     <div class="row justify-content-end mx-2">
         <a href="{{ path('addRealisation')}}">
             <button class="btn btn-primary my-2" type="button">
@@ -19,6 +24,7 @@
             </button>
         </a>
     </div>
+    {% endif %}
    <div class="row p-2">
         <div class="col-12">
             <div class="rounded shadow-sm border col-12 ">
