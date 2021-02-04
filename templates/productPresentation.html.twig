@@ -172,9 +172,9 @@
                     $('.pd').text(response.data[i].price3);
 
                     t1 = response.data[i].dim;
-                    t2 = response.data[i].price1;
-                    t3 = response.data[i].price2;
-                    t4 = response.data[i].price3;
+                    t2 = $('.pp').text();
+                    t3 = $('.pr').text();
+                    t4 = $('.pd').text();
                 }
             }
 
@@ -192,7 +192,6 @@
         $.getJSON('/commande/panier/ajouter/'+t0+'/'+t1+'/'+price.replace(/ /g,''), function (response) {
             $('.cart').text(response.data);
             $('.cart').addClass('bg-danger');
-            console.log(+t0+'/'+t1+'/'+price.replace(' ',''))
         })
         
 
