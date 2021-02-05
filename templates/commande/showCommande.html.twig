@@ -43,7 +43,8 @@
                         <div>
                             <span class="d-flex "><h5 class="font-weight-bold">Client :</h5><h5 class="ml-1">{{showCommande.user.id}} </h5></span>
                         <h4>{{showCommande.fullName|upper}}</h4>
-                        <h5>12 rue mohamed hachemi bejaia </h5>
+                        <h5>{{showCommande.user.adress|capitalize}} {{showCommande.user.city|upper}}</h5>
+                        <h5>Tél : 0{{showCommande.user.phone|upper}}</h5>
                         </div>
                     </div>
                 </div>
