@@ -101,6 +101,17 @@
          url="/recherche-'"+ search +"'"; 
          $('.search').attr('href', url)
      })
+     $('.result').on('keypress',function(e) {
+        if(e.which == 13) {
+            search=$('.result').val();
+            console.log(search);
+            if(search == ""){
+                e.preventDefault();
+            }
+            url="/recherche-'"+ search +"'"; 
+            window.location.replace(url);
+        }
+});
 </script>
     
  

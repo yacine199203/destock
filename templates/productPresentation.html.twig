@@ -160,7 +160,7 @@
     var t2 = $('.pp').text();
     var t3 = $('.pr').text();
     var t4 = $('.pd').text();
-    $('.dim').click(function () {
+    $('.dim').change(function () {
         var url = $(location).attr("href");
         $.getJSON(url + '/dim', function (response) {
 
