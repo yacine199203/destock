@@ -93,7 +93,7 @@ class ProductController extends AbstractController
                     $filePdf->move($this->getParameter('upload_directory_pdf'),$fileNamePdf);
                     $addProduct->setPng($fileNamePng);
                     $addProduct->setPdf($fileNamePdf);
-    
+                    $addProduct->setStatu(false);
                     $manager=$this->getDoctrine()->getManager();
                     foreach($fileImage as $image){
                         // On génère un nouveau nom de fichier
@@ -146,6 +146,28 @@ class ProductController extends AbstractController
             'addProdForm'=> $addProdForm->createView(),
             
         ]);
+    }
+
+    /**
+     * @Route("/dashbord/status-produit/{id}", name="statusProd")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function showsubscriber($id,ProductRepository $productRepo): Response
+    {
+        $status = $productRepo->findOneById($id);
+        $manager=$this->getDoctrine()->getManager();
+        if($status->getStatu()==false)
+        {
+            $status->setStatu(true);
+        }
+        else
+        {
+            $status->setStatu(false);
+        }  
+        $manager->persist($status); 
+        $manager->flush(); 
+
+        return $this-> redirectToRoute('product');
     }
 
     /**

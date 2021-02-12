@@ -72,6 +72,11 @@ class Product
      */
     private $prices;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $statu;
+
     
 
     public function __construct()
@@ -275,6 +280,18 @@ class Product
                 $price->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatu(): ?bool
+    {
+        return $this->statu;
+    }
+
+    public function setStatu(bool $statu): self
+    {
+        $this->statu = $statu;
 
         return $this;
     }

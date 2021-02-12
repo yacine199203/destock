@@ -18,18 +18,19 @@
 			{{jobs.jobName}}
 		</h1>
 	</div>
-	{% if jobs.jobProducts|length == 1 %}
+	{% if totalProd <= 1 %}
 		<div style="font-size: 15px;">
-			{{jobs.jobProducts|length}}
+			{{totalProd}}
 			produit</div>
 	{% else %}
 		<div style="font-size: 15px;">
-			{{jobs.jobProducts|length}}
+			{{totalProd}}
 			produits</div>
 	{% endif %}
 
 	<div class="row" style="min-height: 800px;">
         {% for product in data  %}
+		{% if product.statu != true %}
         {% for jp in product.jobProducts %} 
         {% if product.id == jp.product.id and jobs.id == jp.job.id %}
 			<div class="col-md-4 p-3 col-6">
@@ -50,6 +51,7 @@
 			</div>
         {% endif %}
         {% endfor %}
+		{% endif %}
 		{% endfor %}
 	</div>
 	<div class="row">

@@ -12,8 +12,10 @@
         <div class="corp">
             <div class="p-2  d-flex flex-column">
                 {% for product in cat.products %}
+                {% if product.statu != true %}
                 <a href="{{path('productPresentation',{'slug': product.category.slug,'productSlug': product.slug})}}"
                     class="my-1">{{ product.productName }}</a>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>

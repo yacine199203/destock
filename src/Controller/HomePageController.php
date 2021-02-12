@@ -54,6 +54,14 @@ class HomePageController extends AbstractController
     {
         $category = $categoryRepo->findOneBySlug($slug);
         $datap= $category->getProducts();
+        $i=0;
+        foreach($datap as $count)
+        {
+            if($count->getStatu()== false)
+            {
+                $i++;
+            }
+        }
         $data = $paginator->paginate(
             $datap,$request->query->getInt('page',1),
             6
@@ -61,6 +69,7 @@ class HomePageController extends AbstractController
         return $this->render('/categoryProductList.html.twig', [
             'category'=> $category,
             'data'=> $data,
+            'totalProd'=> $i,
         ]);
     }
 
@@ -121,6 +130,14 @@ class HomePageController extends AbstractController
         $jobs = $jobRepo->findOneBySlug($slug);
         $jps = $jpRepo->findByJob($jobs->getId());
         $products =$productRepo->findAll();
+        $i=0;
+        foreach($products as $count)
+        {
+            if($count->getStatu()== false)
+            {
+                $i++;
+            }
+        }
         $data = $paginator->paginate(
             $products,$request->query->getInt('page',1),
             6
@@ -130,6 +147,7 @@ class HomePageController extends AbstractController
             'jps'=> $jps,
             'products'=> $products,
             'data'=> $data,
+            'totalProd'=> $i,
             
         ]);
     }

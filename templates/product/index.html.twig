@@ -52,6 +52,15 @@
                                             <button class="btn pr-0 btnmdsup delete"><i
                                                     class="far fa-trash-alt"></i></button>
                                         </a>
+                                        <a href="{{ path('statusProd',{'id': product.id}) }}">
+                                            <button class="btn pr-0 btnmdsup">
+                                                {% if product.statu == false %}
+                                                <button class="btn btn-success py-0">V</button>
+                                                {% else %}
+                                                <button class="btn btn-danger py-0">D</button>
+                                                {% endif %}
+                                            </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

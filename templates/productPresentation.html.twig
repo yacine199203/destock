@@ -12,7 +12,7 @@
 
 {% endblock %}
 {% block mbody %}
-
+{% if product.statu != true %}
 {% if app.user == false %}
 <div class="row product-title mx-1 mb-3">
     <div class="w-100 pr-0 pl-2 py-3 ml-5">
@@ -151,6 +151,7 @@
     {% endif %}
     {% endfor %}
 </div>
+{% endif %}
 {% endif %}
 {% endblock %}
 {% block javascripts %}
