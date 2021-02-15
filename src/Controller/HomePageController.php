@@ -147,7 +147,7 @@ class HomePageController extends AbstractController
             'jps'=> $jps,
             'products'=> $products,
             'data'=> $data,
-            'totalProd'=> $i,
+            'totalProd'=> count($products),
             
         ]);
     }
