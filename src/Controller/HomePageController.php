@@ -129,7 +129,7 @@ class HomePageController extends AbstractController
     {
         $jobs = $jobRepo->findOneBySlug($slug);
         $jps = $jpRepo->findByJob($jobs->getId());
-        $products =$productRepo->findAll();
+        $products =$productRepo->findByStatu(false);
         $i=0;
         foreach($products as $count)
         {
