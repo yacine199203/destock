@@ -48,9 +48,9 @@
                     <a href="{{ path('statusEmail',{'id': subscriber.id}) }}">
                         <button class="btn pr-0 btnmdsup">
                             {% if subscriber.status == false %}
-                            <button class="btn btn-success py-0">V</button>
-                            {% else %}
                             <button class="btn btn-danger py-0">D</button>
+                            {% else %}
+                            <button class="btn btn-success py-0">V</button>
                             {% endif %}
                         </button>
                     </a>
