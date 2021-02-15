@@ -53,23 +53,16 @@ class HomePageController extends AbstractController
     public function showCategoryProduct($slug,CategoryRepository $categoryRepo,Request $request, PaginatorInterface $paginator)
     {
         $category = $categoryRepo->findOneBySlug($slug);
-        $datap= $category->getProducts();
-        $i=0;
-        foreach($datap as $count)
-        {
-            if($count->getStatu()== false)
-            {
-                $i++;
-            }
-        }
+        $manager = $this->getDoctrine()->getManager();
+        $products = $manager->createQuery('SELECT p FROM App\Entity\Product p WHERE p.category ='.$category->getId().' AND p.statu = false')->getResult();
         $data = $paginator->paginate(
-            $datap,$request->query->getInt('page',1),
+            $products,$request->query->getInt('page',1),
             6
         );
         return $this->render('/categoryProductList.html.twig', [
             'category'=> $category,
             'data'=> $data,
-            'totalProd'=> $i,
+            'totalProd'=> count($products),
         ]);
     }
 
@@ -93,7 +86,7 @@ class HomePageController extends AbstractController
     }
 
     /**
-     * permet de voir la présentation du produit
+     * 
      * @Route("/categorie/{slug}/{productSlug}/dim", name="dim")
      * 
      * @return Response
@@ -130,14 +123,6 @@ class HomePageController extends AbstractController
         $jobs = $jobRepo->findOneBySlug($slug);
         $jps = $jpRepo->findByJob($jobs->getId());
         $products =$productRepo->findByStatu(false);
-        $i=0;
-        foreach($products as $count)
-        {
-            if($count->getStatu()== false)
-            {
-                $i++;
-            }
-        }
         $data = $paginator->paginate(
             $products,$request->query->getInt('page',1),
             6

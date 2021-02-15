@@ -18,15 +18,11 @@
 			{{jobs.jobName}}
 		</h1>
 	</div>
-	{% if totalProd <= 1 %}
+
 		<div style="font-size: 15px;">
-			{{totalProd}}
-			produit</div>
-	{% else %}
-		<div style="font-size: 15px;">
-			{{totalProd}}
-			produits</div>
-	{% endif %}
+			
+			Total produits : {{totalProd}}</div>
+	
 
 	<div class="row" style="min-height: 800px;">
         {% for product in data  %}
