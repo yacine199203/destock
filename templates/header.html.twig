@@ -14,8 +14,8 @@
                 {% else %} 
                     {% set color = 'dark' %}
                 {% endif %} 
-                <span style="font-size: 15px;"> 
-                   <span class="d-none d-lg-inline"> Panier</span> <span class=" cart badge  badge-{{color}} p-1" >
+                <span style="font-size: 15px;" class="my-auto"> 
+                   <span class="d-none d-lg-inline"> Panier</span> <span class=" cart badge  badge-{{color}}" >
                         {{app.session.get('cart')|length}}
                     </span>
                 </span>
